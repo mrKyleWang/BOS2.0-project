@@ -15,7 +15,7 @@
 		http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <!-- 扫描 @Server @Controller @Repository -->
-    <context:component-scan base-package="cn.itcast"/>
+    <context:component-scan base-package="top.kylewang"/>
 
     <!-- 加载properties文件 -->
     <context:property-placeholder location="classpath:config.properties"/>
@@ -29,13 +29,18 @@
     </bean>
 
     <!-- 整合JPA -->
+    <!--定义实体管理器工厂-->
     <bean id="entityManagerFactory"
           class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <!--指定数据源-->
         <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="cn.itcast.bos.domain"/>
+        <!--实体类扫描包路径-->
+        <property name="packagesToScan" value="top.kylewang.bos.domain"/>
+        <!--Jpa持久化实现提供者(hibernate)-->
         <property name="persistenceProvider">
-            <bean class="org.hibernate.ejb.HibernatePersistence"/>
+            <bean class="org.hibernate.jpa.HibernatePersistenceProvider"/>
         </property>
+        <!--配置提供者属性(hibernate)-->
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="generateDdl" value="true"/>
@@ -44,9 +49,11 @@
                 <property name="showSql" value="true"/>
             </bean>
         </property>
+        <!--jpa方言-->
         <property name="jpaDialect">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
         </property>
+        <!--可选配置-->
         <property name="jpaPropertyMap">
             <map>
                 <entry key="hibernate.query.substitutions" value="true 1, false 0"/>

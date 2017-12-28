@@ -1,4 +1,4 @@
-package cn.itcast.bos.domain.base;
+package top.kylewang.bos.domain.base;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

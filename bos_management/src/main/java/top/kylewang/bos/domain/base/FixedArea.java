@@ -1,4 +1,4 @@
-package cn.itcast.bos.domain.base;
+package top.kylewang.bos.domain.base;
 
 import java.util.Date;
 import java.util.HashSet;
