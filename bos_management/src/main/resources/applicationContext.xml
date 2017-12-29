@@ -75,4 +75,7 @@
 
     <!--配置管理事务-->
     <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!--配置jpa repository包扫描-->
+    <jpa:repositories base-package="top.kylewang.bos.dao"/>
 </beans>
