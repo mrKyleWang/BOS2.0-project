@@ -1,4 +1,4 @@
-package top.kylewang.bos.web.action;
+package top.kylewang.bos.web.action.base;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;

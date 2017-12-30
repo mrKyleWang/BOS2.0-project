@@ -1,4 +1,4 @@
-package top.kylewang.bos.web.action;
+package top.kylewang.bos.web.action.base;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -108,6 +108,24 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
         result.put("rows",page.getContent());
         ActionContext.getContext().getValueStack().push(result);
         return "success";
+    }
+
+    private String ids;
+    public void setIds(String ids) {
+        this.ids = ids;
+    }
+
+    /**
+     * 批量作废快递员
+     * @return
+     */
+    @Action(value = "courier_delBatch",
+            results = {@Result(name = "success", location = "./pages/base/courier.html", type = "redirect")})
+    public String delBatch() {
+
+        String[] idArray = ids.split(",");
+        courierService.delBatch(idArray);
+        return SUCCESS;
     }
 
 

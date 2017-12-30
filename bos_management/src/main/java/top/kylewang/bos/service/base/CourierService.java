@@ -22,4 +22,10 @@ public interface CourierService {
      * @return
      */
     Page<Courier> pageQuery(Specification<Courier> specification,Pageable pageable);
+
+    /**
+     * 批量作废
+     * @param idArray
+     */
+    void delBatch(String[] idArray);
 }

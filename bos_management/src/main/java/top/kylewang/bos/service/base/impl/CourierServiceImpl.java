@@ -29,6 +29,14 @@ public class CourierServiceImpl implements CourierService {
 
     @Override
     public Page<Courier> pageQuery(Specification<Courier> specification, Pageable pageable) {
-        return courierRepository.findAll(specification,pageable);
+        return courierRepository.findAll(specification, pageable);
+    }
+
+    @Override
+    public void delBatch(String[] idArray) {
+        for (String s : idArray) {
+            Integer id = Integer.parseInt(s);
+            courierRepository.updateDelTag(id);
+        }
     }
 }
