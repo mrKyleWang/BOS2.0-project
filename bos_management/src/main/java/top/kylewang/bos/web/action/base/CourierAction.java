@@ -1,8 +1,5 @@
 package top.kylewang.bos.web.action.base;
 
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +11,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import top.kylewang.bos.domain.base.Courier;
 import top.kylewang.bos.service.base.CourierService;
+import top.kylewang.bos.web.action.common.BaseAction;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -31,17 +27,10 @@ import java.util.Map;
 @Actions
 @Namespace("/")
 @ParentPackage("json-default")
-public class CourierAction extends ActionSupport implements ModelDriven<Courier> {
+public class CourierAction extends BaseAction<Courier> {
 
     @Autowired
     private CourierService courierService;
-
-    private Courier courier = new Courier();
-
-    @Override
-    public Courier getModel() {
-        return courier;
-    }
 
     /**
      * 保存快递员
@@ -50,17 +39,8 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
     @Action(value = "courier_save",
             results = {@Result(name = "success", location = "./pages/base/courier.html", type = "redirect")})
     public String save() {
-        courierService.save(courier);
+        courierService.save(model);
         return SUCCESS;
-    }
-
-    private Integer page;
-    private Integer rows;
-    public void setPage(Integer page) {
-        this.page = page;
-    }
-    public void setRows(Integer rows) {
-        this.rows = rows;
     }
 
     /**
@@ -76,26 +56,26 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> list = new ArrayList<>();
-                if(StringUtils.isNotBlank(courier.getCourierNum())){
+                if(StringUtils.isNotBlank(model.getCourierNum())){
                     //快递员编号等值查询
-                    Predicate predicate1 = criteriaBuilder.equal(root.get("courierNum").as(String.class), courier.getCourierNum());
+                    Predicate predicate1 = criteriaBuilder.equal(root.get("courierNum").as(String.class), model.getCourierNum());
                     list.add(predicate1);
                 }
-                if(StringUtils.isNotBlank(courier.getType())){
+                if(StringUtils.isNotBlank(model.getType())){
                     //快递员类型等值查询
-                    Predicate predicate2 = criteriaBuilder.equal(root.get("type").as(String.class), courier.getType());
+                    Predicate predicate2 = criteriaBuilder.equal(root.get("type").as(String.class), model.getType());
                     list.add(predicate2);
                 }
-                if(StringUtils.isNotBlank(courier.getCompany())){
+                if(StringUtils.isNotBlank(model.getCompany())){
                     //所属单位模糊查询
-                    Predicate predicate3 = criteriaBuilder.like(root.get("company").as(String.class), "%"+courier.getCompany()+"%");
+                    Predicate predicate3 = criteriaBuilder.like(root.get("company").as(String.class), "%"+model.getCompany()+"%");
                     list.add(predicate3);
                 }
                 //多表查询关联对象
                 Join standard = root.join("standard", JoinType.INNER);
-                if(courier.getStandard()!=null && StringUtils.isNotBlank(courier.getStandard().getName())){
+                if(model.getStandard()!=null && StringUtils.isNotBlank(model.getStandard().getName())){
                     //收派标准模糊查询
-                    Predicate predicate4 = criteriaBuilder.like(standard.get("name").as(String.class), "%"+courier.getStandard().getName()+"%");
+                    Predicate predicate4 = criteriaBuilder.like(standard.get("name").as(String.class), "%"+model.getStandard().getName()+"%");
                     list.add(predicate4);
                 }
                 //转为参数数组
@@ -103,10 +83,7 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
             }
         };
         Page<Courier> pageData =  courierService.findPageData(specification,pageable);
-        Map<String,Object> result = new HashMap<>(4);
-        result.put("total",pageData.getNumberOfElements());
-        result.put("rows",pageData.getContent());
-        ActionContext.getContext().getValueStack().push(result);
+        pushPageDataToValueStack(pageData);
         return SUCCESS;
     }
 

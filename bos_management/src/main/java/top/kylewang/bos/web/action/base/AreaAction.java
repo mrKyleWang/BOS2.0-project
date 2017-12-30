@@ -1,8 +1,5 @@
 package top.kylewang.bos.web.action.base;
 
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -18,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import top.kylewang.bos.domain.base.Area;
 import top.kylewang.bos.service.base.AreaService;
 import top.kylewang.bos.utils.PinYin4jUtils;
+import top.kylewang.bos.web.action.common.BaseAction;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -27,9 +25,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -41,17 +37,10 @@ import java.util.Map;
 @Actions
 @Namespace("/")
 @ParentPackage("json-default")
-public class AreaAction extends ActionSupport implements ModelDriven<Area> {
+public class AreaAction extends BaseAction<Area> {
 
     @Autowired
     private AreaService areaService;
-
-    private Area area = new Area();
-
-    @Override
-    public Area getModel() {
-        return area;
-    }
 
     private File file;
 
@@ -101,17 +90,6 @@ public class AreaAction extends ActionSupport implements ModelDriven<Area> {
         return null;
     }
 
-
-    private Integer page;
-    private Integer rows;
-
-    public void setPage(Integer page) {
-        this.page = page;
-    }
-    public void setRows(Integer rows) {
-        this.rows = rows;
-    }
-
     /**
      * 条件分页查询
      * @return
@@ -123,29 +101,25 @@ public class AreaAction extends ActionSupport implements ModelDriven<Area> {
             @Override
             public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> list = new ArrayList<>();
-                if (StringUtils.isNotBlank(area.getProvince())) {
-                    Predicate predicate1 = criteriaBuilder.like(root.get("province").as(String.class), "%" + area.getProvince() + "%");
+                if (StringUtils.isNotBlank(model.getProvince())) {
+                    Predicate predicate1 = criteriaBuilder.like(root.get("province").as(String.class), "%" + model.getProvince() + "%");
                     list.add(predicate1);
                 }
-                if (StringUtils.isNotBlank(area.getCity())) {
-                    Predicate predicate2 = criteriaBuilder.like(root.get("city").as(String.class), "%" + area.getCity() + "%");
+                if (StringUtils.isNotBlank(model.getCity())) {
+                    Predicate predicate2 = criteriaBuilder.like(root.get("city").as(String.class), "%" + model.getCity() + "%");
                     list.add(predicate2);
                 }
-                if (StringUtils.isNotBlank(area.getDistrict())) {
-                    Predicate predicate3 = criteriaBuilder.like(root.get("district").as(String.class), "%" + area.getDistrict() + "%");
+                if (StringUtils.isNotBlank(model.getDistrict())) {
+                    Predicate predicate3 = criteriaBuilder.like(root.get("district").as(String.class), "%" + model.getDistrict() + "%");
                     list.add(predicate3);
                 }
                 return criteriaBuilder.and(list.toArray(new Predicate[0]));
             }
         };
+
         Page<Area> pageData = areaService.findPageData(specification,pageable);
-        Map<String,Object> result = new HashMap<>(4);
-        result.put("total",pageData.getNumberOfElements());
-        result.put("rows",pageData.getContent());
-        ActionContext.getContext().getValueStack().push(result);
+        pushPageDataToValueStack(pageData);
         return SUCCESS;
-
-
     }
 
 }

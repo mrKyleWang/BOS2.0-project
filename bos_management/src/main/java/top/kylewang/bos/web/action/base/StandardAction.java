@@ -1,8 +1,6 @@
 package top.kylewang.bos.web.action.base;
 
 import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
 import org.apache.struts2.convention.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -12,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import top.kylewang.bos.domain.base.Standard;
 import top.kylewang.bos.service.base.StandardService;
+import top.kylewang.bos.web.action.common.BaseAction;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,17 +25,10 @@ import java.util.Map;
 @Actions
 @Namespace("/")
 @ParentPackage("json-default")
-public class StandardAction extends ActionSupport implements ModelDriven<Standard>{
-
-    private Standard standard = new Standard();
+public class StandardAction extends BaseAction<Standard>{
 
     @Autowired
     private StandardService standardService;
-
-    @Override
-    public Standard getModel() {
-        return standard;
-    }
 
     /**
      * 保存收派标准
@@ -45,17 +37,8 @@ public class StandardAction extends ActionSupport implements ModelDriven<Standar
     @Action(value = "standard_save",
             results = {@Result(name = "success",location = "./pages/base/standard.html", type = "redirect")})
     public String sava(){
-        standardService.save(standard);
+        standardService.save(model);
         return SUCCESS;
-    }
-
-    private Integer page;
-    private Integer rows;
-    public void setPage(Integer page) {
-        this.page = page;
-    }
-    public void setRows(Integer rows) {
-        this.rows = rows;
     }
 
     /**
