@@ -15,7 +15,7 @@ import top.kylewang.bos.service.base.CourierService;
  * 2017/12/30 0030 10:07
  */
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class CourierServiceImpl implements CourierService {
 
     @Autowired

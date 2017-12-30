@@ -16,7 +16,7 @@ import java.util.List;
  * 2017/12/29 0029 12:52
  */
 @Service
-@Transactional
+@Transactional(rollbackFor = Exception.class)
 public class StandardServiceImpl implements StandardService{
 
     @Autowired
