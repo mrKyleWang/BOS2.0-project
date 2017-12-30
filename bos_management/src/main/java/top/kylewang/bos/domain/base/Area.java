@@ -1,5 +1,7 @@
 package top.kylewang.bos.domain.base;
 
+import org.apache.struts2.json.annotations.JSON;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -87,6 +89,7 @@ public class Area {
 		this.shortcode = shortcode;
 	}
 
+	@JSON(serialize = false)
 	public Set<SubArea> getSubareas() {
 		return subareas;
 	}

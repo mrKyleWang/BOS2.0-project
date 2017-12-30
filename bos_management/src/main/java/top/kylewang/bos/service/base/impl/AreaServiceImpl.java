@@ -1,6 +1,9 @@
 package top.kylewang.bos.service.base.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.kylewang.bos.dao.base.AreaRepository;
@@ -23,5 +26,10 @@ public class AreaServiceImpl implements AreaService {
     @Override
     public void saveBatch(List<Area> list) {
         areaRepository.save(list);
+    }
+
+    @Override
+    public Page<Area> findPageData(Specification<Area> specification,Pageable pageable ) {
+        return areaRepository.findAll(specification,pageable);
     }
 }

@@ -28,7 +28,7 @@ public class CourierServiceImpl implements CourierService {
     }
 
     @Override
-    public Page<Courier> pageQuery(Specification<Courier> specification, Pageable pageable) {
+    public Page<Courier> findPageData(Specification<Courier> specification, Pageable pageable) {
         return courierRepository.findAll(specification, pageable);
     }
 

@@ -102,12 +102,12 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
                 return criteriaBuilder.and(list.toArray(new Predicate[0]));
             }
         };
-        Page<Courier> page =  courierService.pageQuery(specification,pageable);
+        Page<Courier> pageData =  courierService.findPageData(specification,pageable);
         Map<String,Object> result = new HashMap<>(4);
-        result.put("total",page.getNumberOfElements());
-        result.put("rows",page.getContent());
+        result.put("total",pageData.getNumberOfElements());
+        result.put("rows",pageData.getContent());
         ActionContext.getContext().getValueStack().push(result);
-        return "success";
+        return SUCCESS;
     }
 
     private String ids;
