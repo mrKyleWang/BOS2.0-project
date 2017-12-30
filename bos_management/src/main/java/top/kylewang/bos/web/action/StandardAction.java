@@ -14,6 +14,7 @@ import top.kylewang.bos.domain.base.Standard;
 import top.kylewang.bos.service.base.StandardService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,7 +43,7 @@ public class StandardAction extends ActionSupport implements ModelDriven<Standar
      * @return
      */
     @Action(value = "standard_save",
-            results = {@Result(name = "success", type = "redirect",location = "./pages/base/standard.html")})
+            results = {@Result(name = "success",location = "./pages/base/standard.html", type = "redirect")})
     public String sava(){
         standardService.save(standard);
         return SUCCESS;
@@ -73,6 +74,19 @@ public class StandardAction extends ActionSupport implements ModelDriven<Standar
         result.put("rows",pageData.getContent());
         //压入栈顶,通过json-plugin返回json数据
         ActionContext.getContext().getValueStack().push(result);
+        return SUCCESS;
+    }
+
+    /**
+     * 查询所有
+     * @return
+     */
+    @Action(value = "standard_findAll",
+            results = {@Result(name = "success",type = "json")})
+    public String findAll(){
+        List<Standard> list = standardService.findAll();
+        //压入栈顶,通过json-plugin返回json数据
+        ActionContext.getContext().getValueStack().push(list);
         return SUCCESS;
     }
 

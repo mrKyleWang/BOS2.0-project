@@ -9,6 +9,8 @@ import top.kylewang.bos.dao.base.StandardRepository;
 import top.kylewang.bos.domain.base.Standard;
 import top.kylewang.bos.service.base.StandardService;
 
+import java.util.List;
+
 /**
  * @author Kyle.Wang
  * 2017/12/29 0029 12:52
@@ -28,5 +30,10 @@ public class StandardServiceImpl implements StandardService{
     @Override
     public Page<Standard> pageQuery(Pageable pageable) {
         return standardRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Standard> findAll() {
+        return standardRepository.findAll();
     }
 }

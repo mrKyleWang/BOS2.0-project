@@ -2,7 +2,11 @@ package top.kylewang.bos.service.base;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import top.kylewang.bos.domain.base.Standard; /**
+import top.kylewang.bos.domain.base.Standard;
+
+import java.util.List;
+
+/**
  * @author Kyle.Wang
  * 2017/12/29 0029 12:52
  */
@@ -19,4 +23,7 @@ public interface StandardService {
      * @return
      */
     Page<Standard> pageQuery(Pageable pageable);
+
+    List<Standard> findAll();
+
 }

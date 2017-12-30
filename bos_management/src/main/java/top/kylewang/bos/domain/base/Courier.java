@@ -1,16 +1,10 @@
 package top.kylewang.bos.domain.base;
 
+import org.apache.struts2.json.annotations.JSON;
+
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 /**
  * @description:快递员
@@ -135,6 +129,7 @@ public class Courier {
 		this.vehicleNum = vehicleNum;
 	}
 
+	@JSON(serialize = false)
 	public Set<FixedArea> getFixedAreas() {
 		return fixedAreas;
 	}
@@ -166,4 +161,5 @@ public class Courier {
 	public void setStandard(Standard standard) {
 		this.standard = standard;
 	}
+
 }
