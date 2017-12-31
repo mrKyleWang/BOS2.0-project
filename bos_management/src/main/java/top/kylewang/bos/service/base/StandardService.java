@@ -24,6 +24,10 @@ public interface StandardService {
      */
     Page<Standard> pageQuery(Pageable pageable);
 
+    /**
+     * 查询所有
+     * @return
+     */
     List<Standard> findAll();
 
 }

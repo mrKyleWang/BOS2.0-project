@@ -42,7 +42,7 @@
 		<!-- 加载jpa注解类 -->
 		<property name="packagesToScan">
 			<list>
-				<value>cn.itcast.crm.domain</value>
+				<value>top.kylewang.crm.domain</value>
 			</list>
 		</property>
 		<!-- JPA方言 如果配置了jpaVendorAdapter，这项可以不配置 <property name="jpaDialect"> <bean 
@@ -61,7 +61,7 @@
 		</property>
 		<!-- jpa使用hibernate实现 -->
 		<property name="persistenceProvider"> 
-			<bean class="org.hibernate.ejb.HibernatePersistence"></bean> 
+			<bean class="org.hibernate.jpa.HibernatePersistenceProvider"/>
 		</property>
 	</bean>
 	

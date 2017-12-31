@@ -50,7 +50,7 @@ public class StandardAction extends BaseAction<Standard>{
         //封装参数(注意,PageRequest的page从0开始,而页面从1开始)
         Pageable pageable= new PageRequest(page - 1, rows);
         Page<Standard> pageData = standardService.pageQuery(pageable);
-        Map<String,Object> result = new HashMap<String,Object>();
+        Map<String,Object> result = new HashMap<String,Object>(4);
         //返回页面所需数据格式
         result.put("total",pageData.getNumberOfElements());
         result.put("rows",pageData.getContent());
