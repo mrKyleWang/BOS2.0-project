@@ -34,7 +34,6 @@ import java.util.List;
  */
 @Controller
 @Scope("prototype")
-@Actions
 @Namespace("/")
 @ParentPackage("json-default")
 public class AreaAction extends BaseAction<Area> {

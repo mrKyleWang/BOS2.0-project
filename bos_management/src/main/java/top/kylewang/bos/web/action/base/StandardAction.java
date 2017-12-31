@@ -22,7 +22,6 @@ import java.util.Map;
  */
 @Controller
 @Scope("prototype")
-@Actions
 @Namespace("/")
 @ParentPackage("json-default")
 public class StandardAction extends BaseAction<Standard>{

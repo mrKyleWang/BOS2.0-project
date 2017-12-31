@@ -1,19 +1,11 @@
 package top.kylewang.bos.domain.base;
 
+import org.apache.struts2.json.annotations.JSON;
+
+import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  * @description:定区
@@ -97,6 +89,7 @@ public class FixedArea {
 		this.operator = operator;
 	}
 
+	@JSON(serialize = false)
 	public Set<SubArea> getSubareas() {
 		return subareas;
 	}
@@ -105,6 +98,7 @@ public class FixedArea {
 		this.subareas = subareas;
 	}
 
+	@JSON(serialize = false)
 	public Set<Courier> getCouriers() {
 		return couriers;
 	}

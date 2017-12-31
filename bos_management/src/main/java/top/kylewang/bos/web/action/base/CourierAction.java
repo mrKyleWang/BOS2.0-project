@@ -24,7 +24,6 @@ import java.util.List;
  */
 @Controller
 @Scope("prototype")
-@Actions
 @Namespace("/")
 @ParentPackage("json-default")
 public class CourierAction extends BaseAction<Courier> {
