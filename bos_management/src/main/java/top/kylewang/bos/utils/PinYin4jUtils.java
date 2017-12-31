@@ -1,12 +1,12 @@
 package top.kylewang.bos.utils;
 
-import java.util.Arrays;
-
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+
+import java.util.Arrays;
 
 public class PinYin4jUtils {
 	/**
@@ -165,7 +165,7 @@ public class PinYin4jUtils {
 	/**
 	 * 将字符数组转换成字符串
 	 * 
-	 * @param str
+	 * @param ch
 	 * @param separator
 	 *            各个字符串之间的分隔符
 	 * @return
@@ -184,7 +184,7 @@ public class PinYin4jUtils {
 	/**
 	 * 将字符数组转换成字符串
 	 * 
-	 * @param str
+	 * @param ch
 	 * @return
 	 */
 	public static String charArrayToString(char[] ch) {

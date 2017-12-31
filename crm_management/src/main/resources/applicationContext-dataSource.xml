@@ -65,7 +65,7 @@
 		</property>
 	</bean>
 	
-	<jpa:repositories base-package="cn.itcast.crm.dao" transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory" />
+	<jpa:repositories base-package="top.kylewang.crm.dao" transaction-manager-ref="transactionManager" entity-manager-factory-ref="entityManagerFactory" />
 	<!-- 事务管理 -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />

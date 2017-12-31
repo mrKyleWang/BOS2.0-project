@@ -1,4 +1,4 @@
-package cn.itcast.crm.domain;
+package top.kylewang.crm.domain;
 
 import java.util.Date;
 
