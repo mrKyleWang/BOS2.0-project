@@ -21,4 +21,6 @@
 	
 	<!-- 引入 数据库连接配置文件  -->
 	<import resource="applicationContext-dataSource.xml"/>
+	<!-- 引入 webService配置文件  -->
+	<import resource="applicationContext-webService.xml"/>
 </beans>

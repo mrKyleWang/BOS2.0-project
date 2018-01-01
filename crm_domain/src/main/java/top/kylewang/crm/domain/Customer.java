@@ -1,14 +1,8 @@
 package top.kylewang.crm.domain;
 
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  * @description:客户信息表
@@ -16,6 +10,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "T_CUSTOMER")
+@XmlRootElement(name = "customer")
 public class Customer {
 	@Id
 	@GeneratedValue()
