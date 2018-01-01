@@ -7,7 +7,7 @@
 		http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
 
 	<!--配置customerService-->
-	<jaxrs:server id="customerService" address="customerService">
+	<jaxrs:server id="customerService" address="/customerService">
 		<jaxrs:serviceBeans>
 			<bean class="top.kylewang.crm.service.impl.CustomerServiceImpl"/>
 		</jaxrs:serviceBeans>

@@ -15,7 +15,7 @@ import java.util.List;
      * 查询所有未关联客户列表
      * @return
      */
-    @Path("/findnoassociationcustomers")
+    @Path("/noassociationcustomers")
     @GET
     @Produces({"application/xml","application/json"})
     public List<Customer> findNoAssociationCustomers();
@@ -25,7 +25,7 @@ import java.util.List;
      * @param fixedAreaId
      * @return
      */
-    @Path("findassociationfixedareacustomers/{fixedareaid}")
+    @Path("associationfixedareacustomers/{fixedareaid}")
     @GET
     @Produces({"application/xml","application/json"})
     public List<Customer> findAssociationFixedAreaCustomers(@PathParam("fixedareaid") String fixedAreaId);
