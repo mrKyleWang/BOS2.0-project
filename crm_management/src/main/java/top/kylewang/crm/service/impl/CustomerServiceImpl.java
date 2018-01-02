@@ -1,5 +1,6 @@
 package top.kylewang.crm.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,10 +34,17 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void associationCustomersToFixedArea(String customerIdStr, String fixedAreaId) {
-        String[] idsArray = customerIdStr.split(",");
-        for (String ids : idsArray) {
-            int id = Integer.parseInt(ids);
-            customerRepository.updateFixedAreaId(fixedAreaId,id);
+        //清空客户所关联定区
+        customerRepository.clearFixedAreaId(fixedAreaId);
+        if(StringUtils.isNotBlank(customerIdStr)){
+            //切割客户id字符串
+            String[] idsArray = customerIdStr.split(",");
+            for (String ids : idsArray) {
+                int id = Integer.parseInt(ids);
+                customerRepository.updateFixedAreaId(fixedAreaId,id);
+            }
+        }else{
+            return;
         }
     }
 }

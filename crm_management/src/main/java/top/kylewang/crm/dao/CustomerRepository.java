@@ -11,7 +11,7 @@ import java.util.List;
  * @author Kyle.Wang
  * 2017/12/31 0031 16:51
  */
-public interface CustomerRepository extends JpaRepository<Customer,Integer>{
+public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
     /**
      * 查询所有未关联客户列表
@@ -33,6 +33,14 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer>{
      */
     @Query("update Customer set fixedAreaId = ? where id = ?")
     @Modifying
-    void updateFixedAreaId(String fixedAreaId,Integer id);
+    void updateFixedAreaId(String fixedAreaId, Integer id);
+
+    /**
+     * 解除客户关联定区
+     * @param fixedAreaId
+     */
+    @Query("update Customer set fixedAreaId = null where fixedAreaId=?")
+    @Modifying
+    void clearFixedAreaId(String fixedAreaId);
 
 }
