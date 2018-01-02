@@ -22,4 +22,12 @@ public interface FixedAreaService {
      * @return
      */
     Page<FixedArea> findPageData(Specification<FixedArea> specification, Pageable pageable);
+
+    /**
+     * 关联快递员到定区,关联收派时间到快递员
+     * @param model
+     * @param courierId
+     * @param takeTimeId
+     */
+    void associationCourierToFixedArea(FixedArea model, Integer courierId, Integer takeTimeId);
 }

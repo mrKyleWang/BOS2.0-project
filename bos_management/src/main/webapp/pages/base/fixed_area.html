@@ -54,10 +54,10 @@
             // 判断是否已经选中了一个定区，弹出关联客户窗口
             var rows = $("#grid").datagrid('getSelections');
             if (rows.length == 1) {
+                // 显示进度条
                 $.messager.progress({
                    interval:500    //每500毫秒加载10%,5秒加载完成
                 });
-
                 // 将选中定区id, 设置到form的隐藏域
                 $("#customerFixedAreaId").val(rows[0].id);
                 //发起ajax请求
@@ -81,7 +81,6 @@
                         $("#associationSelect").append(option);
                     });
                 });
-
             } else {
                 // 没有选中定区，或者选择 了多个定区
                 $.messager.alert("警告", "请选择一条记录进行操作", "warning");
@@ -119,7 +118,14 @@
             text: '关联快递员',
             iconCls: 'icon-sum',
             handler: function () {
-
+                var rows = $("#grid").datagrid('getSelections');
+                if (rows.length == 1) {
+                    $('#courierWindow').window('open');
+                    $("#courierFixedAreaId").val(rows[0].id);
+                } else {
+                    // 没有选中定区，或者选择 了多个定区
+                    $.messager.alert("警告", "请选择一条记录进行操作", "warning");
+                }
             }
         }];
         // 定义列
@@ -228,8 +234,19 @@
                 $("#noassociationSelect").append($("#associationSelect option:selected"));
             });
             $("#associationBtn").click(function () {
+                //使所有右侧select标签处于selected状态
                 $("#associationSelect option").attr("selected","selected");
                 $("#customerForm").submit();
+            });
+            $("#associationCourierBtn").click(function () {
+                //判断是否form表单中所有表单对象都通过校验
+                if ($("#courierForm").form("validate")) {
+                    //通过校验
+                    $("#courierForm").submit();
+                } else {
+                    //未通过
+                    $.messager.alert("警告", "表单格式不正确,请修改", "warning");
+                }
             });
         });
 
@@ -486,13 +503,15 @@
                     <td>
                         <!-- 存放定区编号 -->
                         <input type="hidden" name="id" id="courierFixedAreaId"/>
-                        <input type="text" name="courierId" class="easyui-combobox" required="true"/>
+                        <input type="text" name="courierId" class="easyui-combobox" required="true"
+                               data-options="url:'../../courier_findnoassociation.action',valueField:'id',textField:'info'"/>
                     </td>
                 </tr>
                 <tr>
                     <td>选择收派时间</td>
                     <td>
-                        <input type="text" name="takeTimeId" class="easyui-combobox" required="true"/>
+                        <input type="text" name="takeTimeId" class="easyui-combobox" required="true"
+                               data-options="url:'../../takeTime_findAll.action',valueField:'id',textField:'name'"/>
                     </td>
                 </tr>
                 <tr>

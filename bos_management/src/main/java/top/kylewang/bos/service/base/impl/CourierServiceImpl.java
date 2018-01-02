@@ -10,6 +10,13 @@ import top.kylewang.bos.dao.base.CourierRepository;
 import top.kylewang.bos.domain.base.Courier;
 import top.kylewang.bos.service.base.CourierService;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.List;
+import java.util.Set;
+
 /**
  * @author Kyle.Wang
  * 2017/12/30 0030 10:07
@@ -38,5 +45,17 @@ public class CourierServiceImpl implements CourierService {
             Integer id = Integer.parseInt(s);
             courierRepository.updateDelTag(id);
         }
+    }
+
+    @Override
+    public List<Courier> findNoAssociation() {
+        Specification<Courier> specification = new Specification<Courier>() {
+            @Override
+            public Predicate toPredicate(Root<Courier> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                Predicate predicate = cb.isEmpty(root.get("fixedAreas").as(Set.class));
+                return predicate;
+            }
+        };
+        return courierRepository.findAll(specification);
     }
 }

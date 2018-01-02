@@ -62,7 +62,7 @@ public class FixedAreaAction extends BaseAction<FixedArea> {
         Pageable pageable = new PageRequest(page - 1, rows);
         Specification<FixedArea> specification = new Specification<FixedArea>() {
             @Override
-            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+            public Predicate toPredicate(Root<FixedArea> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> list = new ArrayList<>();
                 if (StringUtils.isNotBlank(model.getId())) {
                     Predicate predicate1 = criteriaBuilder.equal(root.get("id").as(String.class), model.getId());
@@ -110,7 +110,6 @@ public class FixedAreaAction extends BaseAction<FixedArea> {
     }
 
     private String[] customerIds;
-
     public void setCustomerIds(String[] customerIds) {
         this.customerIds = customerIds;
     }
@@ -124,8 +123,29 @@ public class FixedAreaAction extends BaseAction<FixedArea> {
     public String associationCustomersToFixedArea() {
         String customerIdStr = StringUtils.join(customerIds, ",");
         WebClient
-                .create("http://localhost:9002/crm/services/customerService/associationcustomerstofixedarea?customerIdStr=" + customerIdStr + "&fixedAreaId=" + model.getId())
+                .create("http://localhost:9002/crm/services/customerService/associationcustomerstofixedarea?customerIdStr="+customerIdStr+"&fixedAreaId="+model.getId())
                 .put(null);
+        return SUCCESS;
+    }
+
+
+    private Integer courierId;
+    private Integer takeTimeId;
+    public void setCourierId(Integer courierId) {
+        this.courierId = courierId;
+    }
+    public void setTakeTimeId(Integer takeTimeId) {
+        this.takeTimeId = takeTimeId;
+    }
+
+    /**
+     * 关联快递员
+     * @return
+     */
+    @Action(value = "fixedArea_associationCourierToFixedArea",
+            results = {@Result(name = "success",location = "./pages/base/fixed_area.html",type = "redirect")})
+    public String associationCourierToFixedArea(){
+        fixedAreaService.associationCourierToFixedArea(model,courierId,takeTimeId);
         return SUCCESS;
     }
 }

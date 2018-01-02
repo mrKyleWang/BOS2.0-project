@@ -49,6 +49,11 @@ public class Courier {
 	@ManyToMany(mappedBy = "couriers")
 	private Set<FixedArea> fixedAreas = new HashSet<FixedArea>();
 
+	@Transient	//防止生成数据表中的列
+	public String getInfo(){
+		return name+"("+company+")";
+	}
+
 	public Integer getId() {
 		return id;
 	}
@@ -161,5 +166,6 @@ public class Courier {
 	public void setStandard(Standard standard) {
 		this.standard = standard;
 	}
+
 
 }

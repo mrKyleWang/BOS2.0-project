@@ -1,5 +1,6 @@
 package top.kylewang.bos.web.action.base;
 
+import com.opensymphony.xwork2.ActionContext;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.convention.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class CourierAction extends BaseAction<Courier> {
         //条件查询对象
         Specification<Courier> specification = new Specification<Courier>() {
             @Override
-            public Predicate toPredicate(Root root, CriteriaQuery criteriaQuery, CriteriaBuilder criteriaBuilder) {
+            public Predicate toPredicate(Root<Courier> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> list = new ArrayList<>();
                 if(StringUtils.isNotBlank(model.getCourierNum())){
                     //快递员编号等值查询
@@ -101,6 +102,18 @@ public class CourierAction extends BaseAction<Courier> {
 
         String[] idArray = ids.split(",");
         courierService.delBatch(idArray);
+        return SUCCESS;
+    }
+
+    /**
+     * 查询未关联定区快递员
+     * @return
+     */
+    @Action(value = "courier_findnoassociation",
+            results = {@Result(name="success",type = "json")})
+    public String findNoAssociation(){
+        List<Courier> couriers = courierService.findNoAssociation();
+        ActionContext.getContext().getValueStack().push(couriers);
         return SUCCESS;
     }
 

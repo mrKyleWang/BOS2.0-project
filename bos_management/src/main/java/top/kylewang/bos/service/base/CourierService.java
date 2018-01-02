@@ -4,6 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import top.kylewang.bos.domain.base.Courier;
+
+import java.util.List;
+
 /**
  * @author Kyle.Wang
  * 2017/12/30 0030 10:07
@@ -28,4 +31,11 @@ public interface CourierService {
      * @param idArray
      */
     void delBatch(String[] idArray);
+
+    /**
+     * 查询未关联定区快递员
+     * @return
+     */
+    List<Courier> findNoAssociation();
+
 }
