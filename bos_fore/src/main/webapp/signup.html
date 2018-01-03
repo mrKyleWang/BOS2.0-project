@@ -41,7 +41,7 @@
 
         <div class="signup" ng-app="signupApp" ng-controller="signupCtrl">
             <div class="col-md-9 signupbox">
-                <form class="form col-md-6">
+                <form id="customerForm" class="form col-md-6" action="customer_register.action" method="post">
                     <div class=" form-group">
                         <label for="inputTelephone" class="col-sm-3 control-label"><b>*</b>手机号</label>
                         <div class="col-sm-8">
@@ -51,10 +51,10 @@
                     <div class="form-group">
                         <label for="inputCheckCode" class="col-sm-3 control-label"><b>*</b>验证码</label>
                         <div class="col-sm-5">
-                            <input type="text" class="form-control" id="inputCheckCode" name="checkcode" placeholder="请输入验证码">
+                            <input type="text" class="form-control" id="inputCheckCode" name="checkCode" placeholder="请输入验证码">
                         </div>
                         <div class="col-sm-3 song">
-                            <button class="btn btn-default" ng-click="getCheckCode(telephone)" ng-bind="btnMsg"></button>
+                            <button type="button" class="btn btn-default" ng-click="getCheckCode(telephone)" ng-bind="btnMsg"></button>
                         </div>
 
                     </div>
@@ -70,7 +70,7 @@
                     <div class="form-group">
                         <label for="inputRepeatPassword" class="col-sm-3 control-label"><b>*</b>确认密码</label>
                         <div class="col-sm-8">
-                            <input type="password" class="form-control" id="inputRepeatPassword" name="password" placeholder="6-16位数字或英文字母">
+                            <input type="password" class="form-control" id="inputRepeatPassword" placeholder="6-16位数字或英文字母">
                         </div>
                     </div>
                     <div class="form-group">
@@ -91,7 +91,7 @@
                     </div>
                     <div class="form-group signbtn">
                         <div class="col-sm-offset-3 col-sm-8 song">
-                            <a class="btn btn-danger" href="signup-success.html">注册</a>
+                            <a class="btn btn-danger" href="javascript:$('#customerForm').submit()">注册</a>
                         </div>
                     </div>
                 </form>
@@ -180,6 +180,7 @@
         }
     }]);
 
+    // TODO 表单验证
 </script>
 </body>
 </html>

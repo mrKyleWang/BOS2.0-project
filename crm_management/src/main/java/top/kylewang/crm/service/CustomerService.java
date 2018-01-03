@@ -18,7 +18,7 @@ import java.util.List;
     @Path("/noassociationcustomers")
     @GET
     @Produces({"application/xml","application/json"})
-    public List<Customer> findNoAssociationCustomers();
+    List<Customer> findNoAssociationCustomers();
 
     /**
      * 查询已关联到指定定区的客户列表
@@ -28,7 +28,7 @@ import java.util.List;
     @Path("associationfixedareacustomers/{fixedareaid}")
     @GET
     @Produces({"application/xml","application/json"})
-    public List<Customer> findAssociationFixedAreaCustomers(@PathParam("fixedareaid") String fixedAreaId);
+    List<Customer> findAssociationFixedAreaCustomers(@PathParam("fixedareaid") String fixedAreaId);
 
 
     /**
@@ -39,7 +39,41 @@ import java.util.List;
     @Path("associationcustomerstofixedarea")
     @PUT
     @Produces({"application/xml","application/json"})
-    public void associationCustomersToFixedArea(
+    void associationCustomersToFixedArea(
             @QueryParam("customerIdStr") String customerIdStr,
             @QueryParam("fixedAreaId") String fixedAreaId);
+
+
+    /**
+     * 注册客户
+     * @param customer
+     */
+    @Path("/customer")
+    @POST
+    @Consumes({"application/xml","application/json"})
+    void register(Customer customer);
+
+
+    /**
+     * 根据电话查询客户
+     * @param telephone
+     * @return
+     */
+    @Path("/customer/telephone/{telephone}")
+    @GET
+    @Consumes({"application/xml","application/json"})
+    Customer findByTelephone(@PathParam("telephone") String telephone);
+
+
+    /**
+     * 更新激活状态
+     * @param telephone
+     */
+    @Path("/customer/updatetype/{telephone}")
+    @PUT
+    @Consumes({"application/xml","application/json"})
+    void updateType(@PathParam("telephone") String telephone);
+
+
+
 }

@@ -43,4 +43,18 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     @Modifying
     void clearFixedAreaId(String fixedAreaId);
 
+    /**
+     * 根据电话查询客户
+     * @param telephone
+     * @return
+     */
+    Customer findByTelephone(String telephone);
+
+    /**
+     * 更新激活状态
+     * @param telephone
+     */
+    @Query("update Customer set type = 1 where telephone=?")
+    @Modifying
+    void updateType(String telephone);
 }

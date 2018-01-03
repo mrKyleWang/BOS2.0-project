@@ -18,5 +18,8 @@
 
 	<!-- 加载properties文件 -->
 	<context:property-placeholder location="classpath:config.properties" />
+
+	<!--导入redis配置-->
+	<import resource="applicationContext-cache.xml"/>
 	
 </beans>
