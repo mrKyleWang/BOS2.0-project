@@ -13,9 +13,8 @@ import top.kylewang.bos.web.action.common.BaseAction;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author Kyle.Wang
@@ -66,6 +65,53 @@ public class ImageAction extends BaseAction<Object>{
         Map<String,Object> result  = new HashMap<>(4);
         result.put("error",0);
         result.put("url",saveUrl+"/"+saveFileName);
+        ActionContext.getContext().getValueStack().push(result);
+        return SUCCESS;
+    }
+
+    @Action(value = "image_manage",
+            results = {@Result(name = "success",type = "json")})
+    public String manage(){
+        // 图片根目录路径
+        String rootPath = ServletActionContext.getServletContext().getRealPath("/upload/");
+        File directory = new File(rootPath);
+        // 根目录url
+        String rootUrl = ServletActionContext.getRequest().getContextPath()+"/upload/";
+        // 图片扩展名
+        String[] fileTypes = new String[] { "gif", "jpg", "jpeg", "png", "bmp" };
+        // 遍历目录下的文件
+        List<Map<String, Object>> fileList = new ArrayList<>();
+        if (directory.listFiles() != null) {
+            for (File file : directory.listFiles()) {
+                Map<String, Object> hash = new HashMap<>();
+                String fileName = file.getName();
+                if (file.isDirectory()) {
+                    hash.put("is_dir", true);
+                    hash.put("has_file", (file.listFiles() != null));
+                    hash.put("filesize", 0L);
+                    hash.put("is_photo", false);
+                    hash.put("filetype", "");
+                } else {
+                    String fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+                    hash.put("is_dir", false);
+                    hash.put("has_file", false);
+                    hash.put("filesize", file.length());
+                    hash.put("is_photo", Arrays.asList(fileTypes).contains(fileExt));
+                    hash.put("filetype", fileExt);
+                }
+                hash.put("filename", fileName);
+                hash.put("datetime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(file.lastModified()));
+                fileList.add(hash);
+            }
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("moveup_dir_path", "");
+        result.put("current_dir_path", rootPath);
+        result.put("current_url", rootUrl);
+        result.put("total_count", fileList.size());
+        result.put("file_list", fileList);
+
         ActionContext.getContext().getValueStack().push(result);
         return SUCCESS;
     }
