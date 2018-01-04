@@ -71,7 +71,7 @@ public class ImageAction extends BaseAction<Object>{
 
     @Action(value = "image_manage",
             results = {@Result(name = "success",type = "json")})
-    public String manage(){
+    public String manage() {
         // 图片根目录路径
         String rootPath = ServletActionContext.getServletContext().getRealPath("/upload/");
         File directory = new File(rootPath);
@@ -104,14 +104,13 @@ public class ImageAction extends BaseAction<Object>{
                 fileList.add(hash);
             }
         }
-
+        // 返回页面所需数据
         Map<String, Object> result = new HashMap<>();
         result.put("moveup_dir_path", "");
         result.put("current_dir_path", rootPath);
         result.put("current_url", rootUrl);
         result.put("total_count", fileList.size());
         result.put("file_list", fileList);
-
         ActionContext.getContext().getValueStack().push(result);
         return SUCCESS;
     }

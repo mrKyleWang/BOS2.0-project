@@ -11,6 +11,7 @@ import java.util.Date;
 @Table(name = "T_PROMOTION")
 public class Promotion implements Serializable {
 
+
 	@Id
 	@GeneratedValue
 	@Column(name = "C_ID")

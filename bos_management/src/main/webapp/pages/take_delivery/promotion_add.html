@@ -30,6 +30,16 @@
 						allowFileManager : true
                     });
                 });
+				
+				$("#save").click(function () {
+					if($("#promotionForm").form("validate")){
+					    // 同步kindEditor数据到表单textarea
+						window.editor.sync();
+						$("#promotionForm").submit();
+					}else{
+					    $.messager.alert("警告","表单参数有误!","warning");
+					}
+                });
 			});
 		</script>
 	</head>
@@ -41,7 +51,7 @@
 			</div>
 		</div>
 		<div region="center" style="overflow:auto;padding:5px;" border="false">
-			<form id="promotionForm" method="post">
+			<form id="promotionForm" action="../../promotion_save.action" method="post" enctype="multipart/form-data">
 				<table class="table-edit" width="95%" align="center">
 					<tr class="title">
 						<td colspan="4">宣传任务</td>
