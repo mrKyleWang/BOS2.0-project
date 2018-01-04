@@ -8,14 +8,20 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Controller;
 import top.kylewang.bos.utils.MailUtils;
-import top.kylewang.bos.utils.SmsUtils;
 import top.kylewang.bos.web.action.common.BaseAction;
 import top.kylewang.crm.domain.Customer;
 
+import javax.jms.JMSException;
+import javax.jms.MapMessage;
+import javax.jms.Message;
+import javax.jms.Session;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +35,10 @@ import java.util.concurrent.TimeUnit;
 @Namespace("/")
 @ParentPackage("json-default")
 public class CustomerAction extends BaseAction<Customer>{
+
+    @Autowired
+    @Qualifier("jmsQueueTemplate")
+    private JmsTemplate jmsTemplate;
 
     /**
      * 发送短信验证码
@@ -44,18 +54,17 @@ public class CustomerAction extends BaseAction<Customer>{
         // 将短信验证码保存到session
         ServletActionContext.getRequest().getSession().setAttribute(mobile,randomCode);
         System.out.println("短信验证码:"+randomCode);
-        // 调用工具类发送短信
-        // TODO 启用短信服务
-        // String responseCode = SmsUtils.sendCode(mobile, randomCode);
-        String responseCode = "000000";
-        System.out.println("响应结果代码:"+responseCode);
-        if(responseCode.equals(SmsUtils.SEND_SUCCESS)){
-            // 发送成功
-            return NONE;
-        }else{
-            // 发送失败
-            throw new RuntimeException("短信发送失败, 信息码:"+responseCode);
-        }
+        // 调用MQ服务, 发送条消息
+        jmsTemplate.send("bos_sms", new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                MapMessage mapMessage = session.createMapMessage();
+                mapMessage.setString("telephone",model.getTelephone());
+                mapMessage.setString("Msg",randomCode);
+                return mapMessage;
+            }
+        });
+        return NONE;
     }
 
     private String checkCode;

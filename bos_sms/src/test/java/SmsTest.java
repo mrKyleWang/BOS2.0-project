@@ -10,7 +10,7 @@ import top.kylewang.bos.utils.SmsUtils;
  * 2018/1/3 0003 9:37
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:applicationContext.xml")
+@ContextConfiguration("classpath:applicationContext-mq-consumer.xml")
 public class SmsTest {
 
 

@@ -30,7 +30,6 @@ import java.util.List;
     @Produces({"application/xml","application/json"})
     List<Customer> findAssociationFixedAreaCustomers(@PathParam("fixedareaid") String fixedAreaId);
 
-
     /**
      * 批量关联客户到指定定区
      * @param customerIdStr
