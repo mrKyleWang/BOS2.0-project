@@ -6,6 +6,7 @@ import top.kylewang.bos.domain.page.PageBean;
 import top.kylewang.bos.domain.take_delivery.Promotion;
 
 import javax.ws.rs.*;
+import java.util.Date;
 
 /**
  * @author Kyle.Wang
@@ -48,4 +49,9 @@ public interface PromotionService {
     @Produces({"application/xml","application/json"})
     Promotion findById(@PathParam("id") Integer id);
 
+    /**
+     * 根据当前时间修改活动状态
+     * @param now
+     */
+    void updateStatus(Date now);
 }

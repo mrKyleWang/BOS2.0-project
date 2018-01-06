@@ -14,24 +14,28 @@
 		http://www.springframework.org/schema/data/jpa 
 		http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <!-- 扫描 @Server @Controller @Repository -->
-    <context:component-scan base-package="top.kylewang"/>
 
-    <!-- 加载properties文件 -->
-    <context:property-placeholder location="classpath:config.properties"/>
+    <!--job-->
+    <bean id="promotionJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="top.kylewang.bos.quartz.PromotionJob"/>
+    </bean>
 
-    <!--配置管理事务-->
-    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <!--trigger-->
+    <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="promotionJob"/>
+        <property name="startDelay" value="0"/>
+        <property name="repeatInterval" value="60000"/>
+    </bean>
 
-    <!--配置jpa repository包扫描-->
-    <jpa:repositories base-package="top.kylewang.bos.dao"/>
+    <!--scheduler-->
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobFactory" ref="jobFactory"/>
+        <property name="triggers">
+            <list>
+                <ref bean="simpleTrigger"/>
+            </list>
+        </property>
+    </bean>
 
-    <!--导入数据库配置-->
-    <import resource="applicationContext-dataSource.xml"/>
 
-    <!--导入webService配置-->
-    <import resource="applicationContext-webService.xml"/>
-
-    <!--导入quartz配置-->
-    <import resource="applicationContext-quartz.xml"/>
 </beans>
