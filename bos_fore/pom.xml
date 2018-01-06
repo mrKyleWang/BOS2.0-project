@@ -18,11 +18,7 @@
             <artifactId>crm_domain</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>top.kylewang.maven</groupId>
-            <artifactId>bos_domain</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+
     </dependencies>
 
     <build>
