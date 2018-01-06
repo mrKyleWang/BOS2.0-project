@@ -40,4 +40,9 @@ public class PromotionServiceImpl implements PromotionService {
         promotionPageBean.setPageData(pageData.getContent());
         return promotionPageBean;
     }
+
+    @Override
+    public Promotion findById(Integer id) {
+        return promotionRepository.findOne(id);
+    }
 }

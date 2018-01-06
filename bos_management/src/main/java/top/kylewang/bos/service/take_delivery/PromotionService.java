@@ -5,10 +5,7 @@ import org.springframework.data.domain.Pageable;
 import top.kylewang.bos.domain.page.PageBean;
 import top.kylewang.bos.domain.take_delivery.Promotion;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 
 /**
  * @author Kyle.Wang
@@ -40,5 +37,15 @@ public interface PromotionService {
     @Produces({"application/xml","application/json"})
     PageBean<Promotion> findPageData(@QueryParam("page") Integer page,
                                      @QueryParam("rows") Integer rows);
+
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    @Path("/promotion/{id}")
+    @GET
+    @Produces({"application/xml","application/json"})
+    Promotion findById(@PathParam("id") Integer id);
 
 }

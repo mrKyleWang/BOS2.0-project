@@ -167,8 +167,10 @@
 					templateUrl: 'myhome.html'
 				}).when("/promotion", {
 					templateUrl: 'promotion.html'
-				}).when("/promotion_detail", {
-					templateUrl: 'promotion_detail.html'
+				}).when("/promotion_detail/:id", {
+					templateUrl: function ($routeParams) {
+						return "promotion_showDetail.action?id="+$routeParams.id;
+                    }
 				}).otherwise({
 					redirectTo: '/'
 				})
