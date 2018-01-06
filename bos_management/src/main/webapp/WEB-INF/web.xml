@@ -23,6 +23,17 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+	<!--cxf服务servlet-->
+	<servlet>
+		<servlet-name>CXFService</servlet-name>
+		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CXFService</servlet-name>
+		<url-pattern>/services/*</url-pattern>
+	</servlet-mapping>
+
 	<!--struts过滤器-->
 	<filter>
 		<filter-name>struts</filter-name>
@@ -30,7 +41,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>struts</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>*.action</url-pattern>
 	</filter-mapping>
 
 	<welcome-file-list>

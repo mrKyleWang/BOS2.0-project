@@ -1,6 +1,7 @@
 package top.kylewang.bos.domain.take_delivery;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -9,6 +10,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "T_PROMOTION")
+@XmlRootElement(name = "Promotion")
 public class Promotion implements Serializable {
 
 

@@ -78,4 +78,7 @@
 
     <!--配置jpa repository包扫描-->
     <jpa:repositories base-package="top.kylewang.bos.dao"/>
+
+    <!--导入webService配置-->
+    <import resource="applicationContext-webService.xml"/>
 </beans>
