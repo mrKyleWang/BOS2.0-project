@@ -1,5 +1,7 @@
 package top.kylewang.bos.domain.take_delivery;
 
+import top.kylewang.bos.domain.constants.Constants;
+
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
@@ -8,6 +10,7 @@ import java.util.Date;
 /**
  * @description:促销信息实体类
  */
+@SuppressWarnings("ALL")
 @Entity
 @Table(name = "T_PROMOTION")
 @XmlRootElement(name = "Promotion")
@@ -56,7 +59,10 @@ public class Promotion implements Serializable {
 	}
 
 	public String getTitleImg() {
-		return titleImg;
+		if(titleImg.startsWith("http")){
+			return titleImg;
+		}
+		return Constants.BOS_MANAGEMENT_URL+titleImg;
 	}
 
 	public void setTitleImg(String titleImg) {

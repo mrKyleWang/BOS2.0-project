@@ -26,7 +26,8 @@
 								<div class="caption">
 									<p><a href="#/promotion_detail">{{item.title}}</a></p>
 									<p class="text-right status">
-										<span>进行中</span>
+										<span ng-show="item.status == '1'">进行中</span>
+										<span ng-show="item.status == '2'">已结束</span>
 									</p>
 									<p class="text-right grey">{{item.startDate}}—{{item.endDate}}</p>
 									<p class="text-right grey">{{item.activeScope}}</p>
