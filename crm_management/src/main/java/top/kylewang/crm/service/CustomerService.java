@@ -86,4 +86,15 @@ import java.util.List;
     Customer login(@QueryParam("telephone") String telephone,
                    @QueryParam("password") String password);
 
+
+    /**
+     * 根据地址查询定区id
+     * @param address
+     * @return
+     */
+    @Path("/customer/findFixedAreaIdByAddress")
+    @GET
+    @Consumes({"application/xml","application/json"})
+    String findFixedAreaIdByAddress(@QueryParam("address") String address);
+
 }

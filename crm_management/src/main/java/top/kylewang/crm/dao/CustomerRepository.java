@@ -66,4 +66,13 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
      */
     Customer findByTelephoneAndPassword(String telephone,String password);
 
+
+    /**
+     * 根据地址查询定区id
+     * @param address
+     * @return
+     */
+    @Query("select fixedAreaId from Customer where address = ?1")
+    String findFixedAreaIdByAddress(String address);
+
 }

@@ -4,6 +4,7 @@ import top.kylewang.bos.domain.base.Area;
 import top.kylewang.bos.domain.base.Courier;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +14,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "T_ORDER")
+@XmlRootElement(name = "order")
 public class Order {
 	@Id
 	@GeneratedValue
