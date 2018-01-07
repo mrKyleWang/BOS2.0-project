@@ -52,6 +52,13 @@ public class SmsUtils {
      */
     private String mobile;
 
+    /**
+     * 发送短信验证码的方法
+     * @param mobile 传入手机号
+     * @param param 传入验证码
+     * @return 返回code "000000"代表成功
+     * @throws Exception
+     */
     public static String sendCode(String mobile,String param) throws Exception {
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
