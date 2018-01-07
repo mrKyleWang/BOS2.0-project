@@ -11,7 +11,7 @@
     - 权限管理
 * CRM项目
 * 前端系统
-
+---
 ### 使用技术:
 |工具|说明|
 |:--:|:--:|
@@ -29,10 +29,11 @@
 |Elasticsearch、SpringDataElasticsearch|搜索服务器| 
 |Quartz|任务调度框架| 
 |EhCache|缓存技术| 
-
+---
 ### 前台页面展示:
 ![前台展示](http://i4.bvimg.com/627033/06bbdebf5ff6ae59.jpg)
 
+---
 ### 后台页面展示:
 ![后台展示](http://i4.bvimg.com/627033/719dea26385088e8.png)
 
