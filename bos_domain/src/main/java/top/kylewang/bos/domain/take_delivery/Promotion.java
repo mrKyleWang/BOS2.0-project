@@ -1,6 +1,6 @@
 package top.kylewang.bos.domain.take_delivery;
 
-import top.kylewang.bos.domain.constants.Constants;
+import top.kylewang.bos.constants.Constants;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;

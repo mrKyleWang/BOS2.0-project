@@ -62,4 +62,9 @@ public class CustomerServiceImpl implements CustomerService {
     public void updateType(String telephone) {
         customerRepository.updateType(telephone);
     }
+
+    @Override
+    public Customer login(String telephone, String password) {
+        return customerRepository.findByTelephoneAndPassword(telephone,password);
+    }
 }

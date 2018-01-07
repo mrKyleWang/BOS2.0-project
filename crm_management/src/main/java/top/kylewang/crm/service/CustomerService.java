@@ -74,5 +74,16 @@ import java.util.List;
     void updateType(@PathParam("telephone") String telephone);
 
 
+    /**
+     * 客户登录
+     * @param telephone
+     * @param password
+     * @return
+     */
+    @Path("/customer/login")
+    @GET
+    @Consumes({"application/xml","application/json"})
+    Customer login(@QueryParam("telephone") String telephone,
+                   @QueryParam("password") String password);
 
 }

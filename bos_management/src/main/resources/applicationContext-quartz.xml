@@ -24,7 +24,7 @@
     <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
         <property name="jobDetail" ref="promotionJob"/>
         <property name="startDelay" value="0"/>
-        <property name="repeatInterval" value="60000"/>
+        <property name="repeatInterval" value="3600000"/>
     </bean>
 
     <!--scheduler-->

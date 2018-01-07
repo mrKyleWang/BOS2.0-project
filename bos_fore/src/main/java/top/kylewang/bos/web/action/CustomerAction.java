@@ -14,6 +14,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Controller;
+import top.kylewang.bos.constants.Constants;
 import top.kylewang.bos.utils.MailUtils;
 import top.kylewang.bos.web.action.common.BaseAction;
 import top.kylewang.crm.domain.Customer;
@@ -92,7 +93,7 @@ public class CustomerAction extends BaseAction<Customer>{
             return INPUT;
         }
         //调用crm服务保存customer对象
-        WebClient.create("http://localhost:9002/crm/services/customerService/customer")
+        WebClient.create(Constants.CRM_MANAGEMENT_URL+"/services/customerService/customer")
                 .type(MediaType.APPLICATION_JSON_TYPE)
                 .post(model);
         //生成激活码
@@ -127,12 +128,12 @@ public class CustomerAction extends BaseAction<Customer>{
             ServletActionContext.getResponse().getWriter().println("激活码无效,请登录系统,重新绑定邮箱!");
         }else{
             //激活码有效
-            Customer customer = WebClient.create("http://localhost:9002/crm/services/customerService/customer/telephone/" + model.getTelephone()).
-                    accept(MediaType.APPLICATION_JSON_TYPE).get(Customer.class);
+            Customer customer = WebClient.create(Constants.CRM_MANAGEMENT_URL+"/services/customerService/customer/telephone/" + model.getTelephone()).
+                    accept(MediaType.APPLICATION_JSON).get(Customer.class);
             if(customer.getType()==null||customer.getType()!=1){
                 //未绑定
                 //调用crm-webservice更新绑定状态
-                WebClient.create("http://localhost:9002/crm/services/customerService/customer/updatetype/" + model.getTelephone()).put(null);
+                WebClient.create(Constants.CRM_MANAGEMENT_URL+"/services/customerService/customer/updatetype/" + model.getTelephone()).put(null);
                 ServletActionContext.getResponse().getWriter().println("邮箱绑定成功!");
             }else{
                 //已绑定
@@ -142,5 +143,21 @@ public class CustomerAction extends BaseAction<Customer>{
             redisTemplate.delete(model.getTelephone());
         }
         return NONE;
+    }
+
+
+    @Action(value = "customer_login",
+            results = {@Result(name = "success",location = "index.html#/myhome",type = "redirect"),
+                    @Result(name = "login",location = "login.html",type = "redirect")})
+    public String login(){
+        Customer customer = WebClient
+                .create(Constants.CRM_MANAGEMENT_URL+"/services/customerService/customer/login?telephone="+model.getTelephone()+"&password="+model.getPassword())
+                .accept(MediaType.APPLICATION_JSON).get(Customer.class);
+        if(customer==null){
+            return LOGIN;
+        }else {
+            ServletActionContext.getRequest().getSession().setAttribute("customer",customer);
+            return SUCCESS;
+        }
     }
 }

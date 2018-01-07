@@ -12,7 +12,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import top.kylewang.bos.domain.constants.Constants;
+import top.kylewang.bos.constants.Constants;
 import top.kylewang.bos.domain.page.PageBean;
 import top.kylewang.bos.domain.take_delivery.Promotion;
 import top.kylewang.bos.web.action.common.BaseAction;

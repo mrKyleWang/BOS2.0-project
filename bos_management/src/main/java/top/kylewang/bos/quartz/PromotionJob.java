@@ -21,6 +21,7 @@ public class PromotionJob implements Job{
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         // 每分钟执行一次, 当前时间大于 promotion数据表endDate ,活动已经过期, 设置status='2'
+        System.out.println("活动过期处理程序执行....");
         promotionService.updateStatus(new Date());
     }
 }
