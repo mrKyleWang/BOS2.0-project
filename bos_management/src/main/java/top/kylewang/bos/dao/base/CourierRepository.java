@@ -17,7 +17,7 @@ public interface CourierRepository extends JpaRepository<Courier, Integer>, JpaS
      * 更新作废标志
      * @param id
      */
-    @Query(value = "update Courier set deltag ='1' where id = ?")
+    @Query(value = "update Courier set deltag ='1' where id = ?1")
     @Modifying
     void updateDelTag(Integer id);
 }

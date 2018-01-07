@@ -31,7 +31,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
      * @param fixedAreaId
      * @param id
      */
-    @Query("update Customer set fixedAreaId = ? where id = ?")
+    @Query("update Customer set fixedAreaId = ?1 where id = ?2")
     @Modifying
     void updateFixedAreaId(String fixedAreaId, Integer id);
 
@@ -39,7 +39,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
      * 解除客户关联定区
      * @param fixedAreaId
      */
-    @Query("update Customer set fixedAreaId = null where fixedAreaId=?")
+    @Query("update Customer set fixedAreaId = null where fixedAreaId=?1")
     @Modifying
     void clearFixedAreaId(String fixedAreaId);
 
@@ -54,7 +54,16 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
      * 更新激活状态
      * @param telephone
      */
-    @Query("update Customer set type = 1 where telephone=?")
+    @Query("update Customer set type = 1 where telephone=?1")
     @Modifying
     void updateType(String telephone);
+
+    /**
+     * 根据电话和密码查询客户
+     * @param telephone
+     * @param password
+     * @return
+     */
+    Customer findByTelephoneAndPassword(String telephone,String password);
+
 }
