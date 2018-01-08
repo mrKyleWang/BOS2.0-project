@@ -8,4 +8,11 @@ import top.kylewang.bos.domain.take_delivery.WayBill;
  * 2018/1/8 0008 15:14
  */
 public interface WayBillRepository extends JpaRepository<WayBill,Integer> {
+
+    /**
+     * 根据运单号查询
+     * @param wayBillNum
+     * @return
+     */
+    WayBill findByWayBillNum(String wayBillNum);
 }

@@ -29,4 +29,9 @@ public class WayBillServiceImpl implements WayBillService {
     public Page<WayBill> findPageData(Pageable pageable) {
         return wayBillRepository.findAll(pageable);
     }
+
+    @Override
+    public WayBill findByWayBillNum(String wayBillNum) {
+        return wayBillRepository.findByWayBillNum(wayBillNum);
+    }
 }

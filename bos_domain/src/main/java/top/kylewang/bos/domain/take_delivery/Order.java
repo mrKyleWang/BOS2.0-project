@@ -1,5 +1,6 @@
 package top.kylewang.bos.domain.take_delivery;
 
+import org.apache.struts2.json.annotations.JSON;
 import top.kylewang.bos.domain.base.Area;
 import top.kylewang.bos.domain.base.Courier;
 
@@ -251,6 +252,7 @@ public class Order {
 		this.wayBill = wayBill;
 	}
 
+	@JSON(serialize = false)
 	public Set<WorkBill> getWorkBills() {
 		return workBills;
 	}

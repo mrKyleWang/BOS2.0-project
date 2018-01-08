@@ -65,4 +65,22 @@ public class WayBillAction extends BaseAction<WayBill>{
         pushPageDataToValueStack(pageData);
         return SUCCESS;
     }
+
+    /**
+     * 根据运单号查询
+     * @return
+     */
+    @Action(value = "waybill_findByWayBillNum",results = {@Result(name = "success",type = "json")})
+    public String findByWayBillNum(){
+        Map<String, Object> result = new HashMap<>(4);
+        WayBill wayBill = wayBillService.findByWayBillNum(model.getWayBillNum());
+        if(wayBill!=null){
+            result.put("success",true);
+            result.put("wayBillData",wayBill);
+        }else{
+            result.put("success",false);
+        }
+        ActionContext.getContext().getValueStack().push(result);
+        return SUCCESS;
+    }
 }

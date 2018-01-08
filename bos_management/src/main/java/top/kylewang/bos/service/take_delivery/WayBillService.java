@@ -20,4 +20,11 @@ public interface WayBillService {
      * @return
      */
     Page<WayBill> findPageData(Pageable pageable);
+
+    /**
+     * 根据运单号查询
+     * @param wayBillNum
+     * @return
+     */
+    WayBill findByWayBillNum(String wayBillNum);
 }

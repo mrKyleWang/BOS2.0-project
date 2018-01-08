@@ -29,6 +29,7 @@
                 }
             });
 
+            // 根据订单号orderNum回显
             $("#orderNum").blur(function () {
                 // 根据orderNum查询订单数据
                 $.post("../../order_findByOrderNum.action",{orderNum:$(this).val()},function (data) {
@@ -40,6 +41,19 @@
                         $("input[name='order.orderNum']").val(data.orderData.orderNum);
                         $("input[name='order.courier.company']").val(data.orderData.courier.company);
                         $("input[name='order.courier.name']").val(data.orderData.courier.name);
+                    }else{
+                        $("#waybillForm").form("reset");
+                    }
+                });
+            });
+
+            //根据运单号wayBillNum回显
+            $("#wayBillNum").blur(function () {
+                // 根据wayBillNum查询订单数据
+                $.post("../../waybill_findByWayBillNum.action",{wayBillNum:$(this).val()},function (data) {
+                    if(data.success){
+                        // 回显数据
+                        $("#waybillForm").form("load",data.wayBillData);
                     }else{
                         $("#waybillForm").form("reset");
                     }
