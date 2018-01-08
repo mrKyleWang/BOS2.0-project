@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.kylewang.bos.constants.Constants;
 import top.kylewang.bos.dao.base.AreaRepository;
 import top.kylewang.bos.dao.base.FixedAreaRepository;
@@ -32,6 +34,8 @@ import java.util.UUID;
  * @author Kyle.Wang
  * 2018/1/7 0007 19:43
  */
+@Service
+@Transactional(rollbackFor = Exception.class)
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
@@ -121,6 +125,11 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderType("2");
         orderRepository.save(order);
 
+    }
+
+    @Override
+    public Order findByOrderNum(String orderNum) {
+        return orderRepository.findByOrderNum(orderNum);
     }
 
     /**

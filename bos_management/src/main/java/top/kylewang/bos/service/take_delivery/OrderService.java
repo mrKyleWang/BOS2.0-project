@@ -21,4 +21,11 @@ public interface OrderService {
     @POST
     @Consumes({"application/xml","application/json"})
     void saveOrder(Order order);
+
+    /**
+     * 根据订单号查询订单
+     * @param orderNum
+     * @return
+     */
+    Order findByOrderNum(String orderNum);
 }

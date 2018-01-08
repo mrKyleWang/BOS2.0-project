@@ -8,4 +8,11 @@ import top.kylewang.bos.domain.take_delivery.Order;
  * 2018/1/7 0007 19:44
  */
 public interface OrderRepository extends JpaRepository<Order,Integer> {
+
+    /**
+     * 根据订单号查询订单
+     * @param orderNum
+     * @return
+     */
+    Order findByOrderNum(String orderNum);
 }
