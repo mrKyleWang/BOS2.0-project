@@ -25,6 +25,7 @@ import javax.jms.Message;
 import javax.jms.Session;
 import javax.ws.rs.core.MediaType;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.UUID;
 
 /**
@@ -61,10 +62,18 @@ public class OrderServiceImpl implements OrderService {
         // 设置状态  "1":待取件
         order.setStatus("1");
 
+        // 根据省市区查询区域对象, 关联到订单中
+        Area sendArea = order.getSendArea();
+        Area persistSendArea = areaRepository.findByProvinceAndCityAndDistrict(sendArea.getProvince(), sendArea.getCity(), sendArea.getDistrict());
+        Area recArea = order.getRecArea();
+        Area persistRecArea = areaRepository.findByProvinceAndCityAndDistrict(recArea.getProvince(), recArea.getCity(), recArea.getDistrict());
+        order.setSendArea(persistSendArea);
+        order.setRecArea(persistRecArea);
+
         // 自动分单逻辑A : 基于CRM地址库完全匹配, 获取定区, 匹配快递员
         System.out.println(order);
         String fixedAreaId = WebClient
-                .create(Constants.CRM_MANAGEMENT_URL + "/services/customerService/findFixedAreaIdByAddress?address=" + order.getSendAddress())
+                .create(Constants.CRM_MANAGEMENT_URL+"/services/customerService/customer/findFixedAreaIdByAddress?address="+order.getSendAddress())
                 .accept(MediaType.APPLICATION_JSON).get(String.class);
         if(fixedAreaId!=null){
             FixedArea fixedArea = fixedAreaRepository.findOne(fixedAreaId);
@@ -76,32 +85,35 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         // 自动分单逻辑B : 基于分区关键字,通过省市区匹配地址
-        Area area = order.getSendArea();
-        Area existArea = areaRepository.findByProvinceAndCityAndDistrict(area.getProvince(), area.getCity(), area.getDistrict());
-        for (SubArea subArea : existArea.getSubareas()) {
+        for (SubArea subArea : persistSendArea.getSubareas()) {
             // 判断下单地址是否包含分区关键字
             if(order.getSendAddress().contains(subArea.getKeyWords())){
                 // 确定分区, 确定定区, 匹配快递员
-                Courier courier = subArea.getFixedArea().getCouriers().iterator().next();
-                if(courier!=null){
-                    saveOrder(order,courier);
-                    generateWorkBill(order);
-                    return;
+                Iterator<Courier> iterator = subArea.getFixedArea().getCouriers().iterator();
+                if(iterator.hasNext()){
+                    Courier courier = iterator.next();
+                    if(courier!=null){
+                        saveOrder(order,courier);
+                        generateWorkBill(order);
+                        return;
+                    }
                 }
             }
         }
         // 自动分单逻辑B2 : 基于分区辅助关键字,通过省市区匹配地址
-        for (SubArea subArea : existArea.getSubareas()) {
+        for (SubArea subArea : persistSendArea.getSubareas()) {
             // 判断下单地址是否包含分区关键字
             if(order.getSendAddress().contains(subArea.getAssistKeyWords())){
                 // 确定分区, 确定定区, 匹配快递员
-                Courier courier = subArea.getFixedArea().getCouriers().iterator().next();
-                if(courier!=null){
-                    saveOrder(order,courier);
-                    generateWorkBill(order);
-                    return;
+                Iterator<Courier> iterator = subArea.getFixedArea().getCouriers().iterator();
+                if(iterator.hasNext()){
+                    Courier courier = iterator.next();
+                    if(courier!=null){
+                        saveOrder(order,courier);
+                        generateWorkBill(order);
+                        return;
+                    }
                 }
-
             }
         }
         // 进入人工分单
@@ -127,8 +139,6 @@ public class OrderServiceImpl implements OrderService {
         workBill.setSmsNumber(smsNumber);
         workBill.setOrder(order);
         workBill.setCourier(order.getCourier());
-        workBillRepository.save(workBill);
-
         // 发送短信
         smsTemplate.send("bos_sms", new MessageCreator() {
             @Override
@@ -141,9 +151,10 @@ public class OrderServiceImpl implements OrderService {
                 return mapMessage;
             }
         });
-
         // 修改工单状态
         workBill.setPickstate("已通知");
+        // 保存
+        workBillRepository.save(workBill);
     }
 
     /**

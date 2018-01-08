@@ -18,7 +18,7 @@ public class SmsConsumer implements MessageListener{
         MapMessage mapMessage = (MapMessage) message;
         try {
             String mobile = mapMessage.getString("telephone");
-            String code = mapMessage.getString("Msg");
+            String code = mapMessage.getString("msg");
 
             //调用SMS服务发送短信 TODO 替换为SMS服务
 //            String responseCode = SmsUtils.sendCode(mobile, code);
