@@ -55,10 +55,10 @@
 					<option value="4">异常</option>
 				</select>
 				
-				<a href="javascript:void" class="easyui-linkbutton" 
+				<a href="javascript:void(0);" class="easyui-linkbutton"
 					plain="true" onclick="doSearch()">查询</a> 
 		</div>
-		<table id="tt" class="easyui-datagrid" fit="true" toolbar="#tb" rownumbers="true" pagination="true">
+		<table id="tt" class="easyui-datagrid" url="../../waybill_pageQuery.action" fit="true" toolbar="#tb" rownumbers="true" pagination="true">
 			<thead>
 				<tr>
 					<th field="ck" checkbox="true"></th>

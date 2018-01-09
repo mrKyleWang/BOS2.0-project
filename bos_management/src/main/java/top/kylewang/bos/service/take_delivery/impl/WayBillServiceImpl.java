@@ -1,5 +1,6 @@
 package top.kylewang.bos.service.take_delivery.impl;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +23,20 @@ public class WayBillServiceImpl implements WayBillService {
 
     @Override
     public void save(WayBill model) {
-        wayBillRepository.save(model);
+        // 去除无效Order属性
+        if(model.getOrder()!=null && (model.getOrder().getId() == null ||model.getOrder().getId()==0)){
+            model.setOrder(null);
+        }
+        // 判断是更新还是新增
+        WayBill persistentWayBill = wayBillRepository.findByWayBillNum(model.getWayBillNum());
+        if(persistentWayBill!=null){
+            Integer id = persistentWayBill.getId();
+            BeanUtils.copyProperties(model,persistentWayBill);
+            persistentWayBill.setId(id);
+            wayBillRepository.save(persistentWayBill);
+        }else{
+            wayBillRepository.save(model);
+        }
     }
 
     @Override
