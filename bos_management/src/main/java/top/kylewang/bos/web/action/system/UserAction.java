@@ -46,4 +46,18 @@ public class UserAction extends BaseAction<User>{
         }
         return SUCCESS;
     }
+
+    /**
+     * 用户注销
+     * @return
+     */
+    @Action(value = "user_logout",
+            results = {@Result(name = "success",location = "login.html",type = "redirect")})
+    public String logout(){
+        System.out.println("注销!!");
+        // 基于shiro实现注销
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return SUCCESS;
+    }
 }
