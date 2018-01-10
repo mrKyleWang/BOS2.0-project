@@ -37,4 +37,8 @@
 
     <!--导入elasticsearch配置-->
     <import resource="applicationContext-elasticsearch.xml"/>
+
+    <!--导入shiro配置-->
+    <import resource="applicationContext-shiro.xml"/>
+
 </beans>

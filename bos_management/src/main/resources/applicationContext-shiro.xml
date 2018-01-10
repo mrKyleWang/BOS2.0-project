@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置Shiro核心Filter-->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!--安全管理器-->
+        <property name="securityManager" ref="securityManager"/>
+        <!--未认证, 跳转哪个页面-->
+        <property name="loginUrl" value="/login.html"/>
+        <!--登录页面-->
+        <property name="successUrl" value="/index.html"/>
+        <!--认证后没有权限跳转页面-->
+        <property name="unauthorizedUrl" value="/unauthorized.html"/>
+        <!--Shiro URL控制过滤器规则-->
+        <property name="filterChainDefinitions">
+            <value>
+                /login.html* = anon
+                /validatecode.jsp* = anon
+                /css/** = anon
+                /js/** = anon
+                /images/** = anon
+                /services/** = anon
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
+    <!--配置安全管理器-->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+    </bean>
+
+    <!--配置后置处理器-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+</beans>

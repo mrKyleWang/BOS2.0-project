@@ -84,10 +84,12 @@ public class WayBillServiceImpl implements WayBillService {
             *    WildCardQuery:通配符匹配
             */
             BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
+            // 运单号等值查询
             if(StringUtils.isNotBlank(wayBill.getWayBillNum())){
                 TermQueryBuilder wayBillNumQuery = new TermQueryBuilder("wayBillNum", wayBill.getWayBillNum());
                 queryBuilder.must(wayBillNumQuery);
             }
+            // 发货地模糊查询
             if(StringUtils.isNotBlank(wayBill.getSendAddress())){
                 // 情况1 : 条件本身是词条一部分, 直接进行模糊查询
                 WildcardQueryBuilder sendAddressWildcardQuery = new WildcardQueryBuilder("sendAddress", "*"+wayBill.getSendAddress()+"*");
@@ -100,6 +102,7 @@ public class WayBillServiceImpl implements WayBillService {
                 sendAddressQuery.should(sendAddressQueryStringQuery);
                 queryBuilder.must(sendAddressQuery);
             }
+            // 收货地模糊查询
             if(StringUtils.isNotBlank(wayBill.getRecAddress())){
                 // 情况1 : 条件本身是词条一部分, 直接进行模糊查询
                 WildcardQueryBuilder recAddressWildcardQuery = new WildcardQueryBuilder("recAddress", "*"+wayBill.getRecAddress()+"*");
@@ -112,10 +115,12 @@ public class WayBillServiceImpl implements WayBillService {
                 recAddressQuery.should(recAddressQueryStringQuery);
                 queryBuilder.must(recAddressQuery);
             }
+            // 快递产品类型等值查询
             if(StringUtils.isNotBlank(wayBill.getSendProNum())){
                 TermQueryBuilder sendProNumQuery = new TermQueryBuilder("sendProNum", wayBill.getSendProNum());
                 queryBuilder.must(sendProNumQuery);
             }
+            // 运单状态等值查询
             if(wayBill.getSignStatus()!=null && wayBill.getSignStatus()!=0){
                 TermQueryBuilder signStatusQuery = new TermQueryBuilder("signStatus", wayBill.getSignStatus());
                 queryBuilder.must(signStatusQuery);
@@ -124,8 +129,6 @@ public class WayBillServiceImpl implements WayBillService {
             searchQuery.setPageable(pageable);
             return wayBillIndexRepository.search(searchQuery);
         }
-
-
     }
 
     @Override
