@@ -29,7 +29,7 @@ public class WayBillServiceImpl implements WayBillService {
         }
         // 判断是更新还是新增
         WayBill persistentWayBill = wayBillRepository.findByWayBillNum(model.getWayBillNum());
-        if(persistentWayBill!=null){
+        if(persistentWayBill!=null && persistentWayBill.getId()!=null){
             Integer id = persistentWayBill.getId();
             BeanUtils.copyProperties(model,persistentWayBill);
             persistentWayBill.setId(id);
