@@ -15,11 +15,13 @@ public interface WayBillService {
     void save(WayBill model);
 
     /**
-     * 分页查询
+     * 分页条件查询
+     *
+     * @param wayBill
      * @param pageable
      * @return
      */
-    Page<WayBill> findPageData(Pageable pageable);
+    Page<WayBill> findPageData(WayBill wayBill, Pageable pageable);
 
     /**
      * 根据运单号查询
