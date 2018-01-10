@@ -39,11 +39,11 @@ public class User {
 					@JoinColumn(name = "C_ROLE_ID", referencedColumnName = "C_ID") })
 	private Set<Role> roles = new HashSet<Role>(0);
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

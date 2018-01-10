@@ -1,5 +1,7 @@
 package top.kylewang.bos.domain.system;
 
+import org.apache.struts2.json.annotations.JSON;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,11 +27,11 @@ public class Permission {
 	@ManyToMany(mappedBy = "permissions")
 	private Set<Role> roles = new HashSet<Role>(0);
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -49,6 +51,7 @@ public class Permission {
 		this.keyword = keyword;
 	}
 
+	@JSON(serialize = false)
 	public Set<Role> getRoles() {
 		return roles;
 	}

@@ -17,4 +17,19 @@ public interface PermissionService {
      * @return
      */
     List<Permission> findByUser(User user);
+
+    /**
+     * 查询权限列表
+     * @return
+     */
+    List<Permission> findAll();
+
+    /**
+     * 保存权限
+     * @param permission
+     */
+    void save(Permission permission);
+
+
+
 }

@@ -36,11 +36,11 @@ public class Role {
 					@JoinColumn(name = "C_MENU_ID", referencedColumnName = "C_ID") })
 	private Set<Menu> menus = new HashSet<Menu>(0);
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
