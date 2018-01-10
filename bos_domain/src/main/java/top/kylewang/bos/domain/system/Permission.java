@@ -1,14 +1,8 @@
 package top.kylewang.bos.domain.system;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 /**
  * @description:权限名称
@@ -20,7 +14,7 @@ public class Permission {
 	@Id
 	@GeneratedValue
 	@Column(name = "C_ID")
-	private int id;
+	private Integer id;
 	@Column(name = "C_NAME")
 	private String name; // 权限名称
 	@Column(name = "C_KEYWORD")

@@ -24,6 +24,8 @@
                 /js/** = anon
                 /images/** = anon
                 /services/** = anon
+                /pages/base/courier.html* = perms[courier:list]
+                /pages/base/area.html* = roles[base]
                 /** = authc
             </value>
         </property>
