@@ -1,17 +1,9 @@
 package top.kylewang.bos.domain.system;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 /**
  * @description:后台用户
@@ -23,7 +15,7 @@ public class User {
 	@Id
 	@GeneratedValue
 	@Column(name = "C_ID")
-	private int id; // 主键
+	private Integer id; // 主键
 	@Column(name = "C_BIRTHDAY")
 	private Date birthday; // 生日
 	@Column(name = "C_GENDER")

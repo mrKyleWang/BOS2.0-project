@@ -18,6 +18,7 @@
         <property name="filterChainDefinitions">
             <value>
                 /login.html* = anon
+                /user_login.action* = anon
                 /validatecode.jsp* = anon
                 /css/** = anon
                 /js/** = anon
@@ -30,6 +31,7 @@
 
     <!--配置安全管理器-->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="BosRealm"/>
     </bean>
 
     <!--配置后置处理器-->
