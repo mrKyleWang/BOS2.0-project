@@ -39,4 +39,13 @@
     <!--配置后置处理器-->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
+    <!--配置shiro注解模式-->
+    <!--自动代理-->
+    <bean id="defaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+        <!--配置对实现类进行代理-->
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
+    <!--切面类-->
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor"/>
+
 </beans>

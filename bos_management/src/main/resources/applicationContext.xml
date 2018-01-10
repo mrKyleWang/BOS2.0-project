@@ -18,7 +18,7 @@
     <context:property-placeholder location="classpath:config.properties"/>
 
     <!--配置管理事务-->
-    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 
     <!--配置jpa repository包扫描-->
     <jpa:repositories base-package="top.kylewang.bos.dao"/>
