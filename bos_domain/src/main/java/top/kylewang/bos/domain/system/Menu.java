@@ -1,5 +1,7 @@
 package top.kylewang.bos.domain.system;
 
+import org.apache.struts2.json.annotations.JSON;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -73,6 +75,7 @@ public class Menu {
 		this.description = description;
 	}
 
+	@JSON(serialize = false)
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -81,6 +84,7 @@ public class Menu {
 		this.roles = roles;
 	}
 
+	@JSON(serialize = false)
 	public Set<Menu> getChildrenMenus() {
 		return childrenMenus;
 	}
