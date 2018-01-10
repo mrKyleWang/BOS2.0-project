@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.kylewang.bos.dao.take_delivery.WayBillRepository;
 import top.kylewang.bos.domain.take_delivery.WayBill;
+import top.kylewang.bos.index.WayBillIndexRepository;
 import top.kylewang.bos.service.take_delivery.WayBillService;
 
 /**
@@ -21,21 +22,30 @@ public class WayBillServiceImpl implements WayBillService {
     @Autowired
     private WayBillRepository wayBillRepository;
 
+    @Autowired
+    private WayBillIndexRepository wayBillIndexRepository;
+
     @Override
-    public void save(WayBill model) {
+    public void save(WayBill wayBill) {
         // 去除无效Order属性
-        if(model.getOrder()!=null && (model.getOrder().getId() == null ||model.getOrder().getId()==0)){
-            model.setOrder(null);
+        if(wayBill.getOrder()!=null && (wayBill.getOrder().getId() == null || wayBill.getOrder().getId()==0)){
+            wayBill.setOrder(null);
         }
         // 判断是更新还是新增
-        WayBill persistentWayBill = wayBillRepository.findByWayBillNum(model.getWayBillNum());
+        WayBill persistentWayBill = wayBillRepository.findByWayBillNum(wayBill.getWayBillNum());
         if(persistentWayBill!=null && persistentWayBill.getId()!=null){
+            // 更新操作
             Integer id = persistentWayBill.getId();
-            BeanUtils.copyProperties(model,persistentWayBill);
+            BeanUtils.copyProperties(wayBill,persistentWayBill);
             persistentWayBill.setId(id);
             wayBillRepository.save(persistentWayBill);
+            // 保存索引
+            wayBillIndexRepository.save(persistentWayBill);
         }else{
-            wayBillRepository.save(model);
+            // 新增操作
+            wayBillRepository.save(wayBill);
+            // 保存索引
+            wayBillIndexRepository.save(wayBill);
         }
     }
 
