@@ -1,6 +1,7 @@
 package top.kylewang.bos.service.system;
 
 import top.kylewang.bos.domain.system.Menu;
+import top.kylewang.bos.domain.system.User;
 
 import java.util.List;
 
@@ -21,4 +22,11 @@ public interface MenuService {
      * @param model
      */
     void save(Menu model);
+
+    /**
+     * 根据用户查询菜单
+     * @param user
+     * @return
+     */
+    List<Menu> findByUser(User user);
 }

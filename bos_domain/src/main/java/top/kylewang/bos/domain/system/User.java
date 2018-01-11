@@ -1,5 +1,7 @@
 package top.kylewang.bos.domain.system;
 
+import org.apache.struts2.json.annotations.JSON;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
@@ -111,6 +113,7 @@ public class User {
 		this.nickname = nickname;
 	}
 
+	@JSON(serialize = false)
 	public Set<Role> getRoles() {
 		return roles;
 	}

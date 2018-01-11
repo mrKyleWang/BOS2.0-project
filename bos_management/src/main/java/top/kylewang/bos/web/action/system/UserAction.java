@@ -1,5 +1,6 @@
 package top.kylewang.bos.web.action.system;
 
+import com.opensymphony.xwork2.ActionContext;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -9,10 +10,14 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import top.kylewang.bos.domain.system.User;
+import top.kylewang.bos.service.system.UserService;
 import top.kylewang.bos.web.action.common.BaseAction;
+
+import java.util.List;
 
 /**
  * @author Kyle.Wang
@@ -24,6 +29,8 @@ import top.kylewang.bos.web.action.common.BaseAction;
 @ParentPackage("json-default")
 public class UserAction extends BaseAction<User>{
 
+    @Autowired
+    private UserService userService;
 
     /**
      * 登录
@@ -58,6 +65,34 @@ public class UserAction extends BaseAction<User>{
         // 基于shiro实现注销
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
+        return SUCCESS;
+    }
+
+    /**
+     * 用户列表查询
+     * @return
+     */
+    @Action(value = "user_list",
+            results = {@Result(name = "success",type = "json")})
+    public String list(){
+        List<User> list = userService.findAll();
+        ActionContext.getContext().getValueStack().push(list);
+        return SUCCESS;
+    }
+
+    private String[] roleIds;
+    public void setRoleIds(String[] roleIds) {
+        this.roleIds = roleIds;
+    }
+
+    /**
+     * 用户保存
+     * @return
+     */
+    @Action(value = "user_save",
+            results = {@Result(name = "success",location = "./pages/system/userlist.html",type = "redirect")})
+    public String save(){
+        userService.save(model,roleIds);
         return SUCCESS;
     }
 }

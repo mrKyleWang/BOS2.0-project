@@ -47,7 +47,7 @@
 					}
 				});
 
-				$.post("../../permission_list.action",function (data) {
+				$.get("../../permission_list.action",function (data) {
 					$(data).each(function () {
 						$("#permissionTD").append($("<input type='checkbox' name='permissionIds' value="+this.id+" />"));
 						$("#permissionTD").append(this.name);

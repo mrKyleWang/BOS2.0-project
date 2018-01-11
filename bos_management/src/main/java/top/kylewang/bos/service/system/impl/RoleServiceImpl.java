@@ -49,13 +49,16 @@ public class RoleServiceImpl implements RoleService{
 
     @Override
     public void save(Role role, String[] permissionIds, String menuIds) {
+        // 保存, 转换为持久态
         roleRepository.save(role);
+        // 关联权限
         if(permissionIds!=null){
             for (String permissionId : permissionIds) {
                 Permission permission = permissionRepository.findOne(Integer.parseInt(permissionId));
                 role.getPermissions().add(permission);
             }
         }
+        // 关联菜单
         if(StringUtils.isNotBlank(menuIds)){
             String[] menuIdsArray = menuIds.split(",");
             for (String menuId : menuIdsArray) {

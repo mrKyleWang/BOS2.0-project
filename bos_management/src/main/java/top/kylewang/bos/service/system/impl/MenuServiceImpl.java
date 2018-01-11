@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.kylewang.bos.dao.system.MenuRepository;
 import top.kylewang.bos.domain.system.Menu;
+import top.kylewang.bos.domain.system.User;
 import top.kylewang.bos.service.system.MenuService;
 
 import java.util.List;
@@ -31,5 +32,10 @@ public class MenuServiceImpl implements MenuService {
             menu.setParentMenu(null);
         }
         menuRepository.save(menu);
+    }
+
+    @Override
+    public List<Menu> findByUser(User user) {
+        return menuRepository.findByUser(user.getId());
     }
 }
