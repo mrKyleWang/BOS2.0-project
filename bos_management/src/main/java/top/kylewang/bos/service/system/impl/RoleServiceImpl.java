@@ -1,9 +1,14 @@
 package top.kylewang.bos.service.system.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import top.kylewang.bos.dao.system.MenuRepository;
+import top.kylewang.bos.dao.system.PermissionRepository;
 import top.kylewang.bos.dao.system.RoleRepository;
+import top.kylewang.bos.domain.system.Menu;
+import top.kylewang.bos.domain.system.Permission;
 import top.kylewang.bos.domain.system.Role;
 import top.kylewang.bos.domain.system.User;
 import top.kylewang.bos.service.system.RoleService;
@@ -21,6 +26,12 @@ public class RoleServiceImpl implements RoleService{
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private PermissionRepository permissionRepository;
+
+    @Autowired
+    private MenuRepository menuRepository;
+
     @Override
     public List<Role> findByUser(User user) {
         // 判断:如果是管理员则获得所有角色
@@ -28,6 +39,29 @@ public class RoleServiceImpl implements RoleService{
             return roleRepository.findAll();
         }else{
             return roleRepository.findByUser(user.getId());
+        }
+    }
+
+    @Override
+    public List<Role> findAll() {
+        return roleRepository.findAll();
+    }
+
+    @Override
+    public void save(Role role, String[] permissionIds, String menuIds) {
+        roleRepository.save(role);
+        if(permissionIds!=null){
+            for (String permissionId : permissionIds) {
+                Permission permission = permissionRepository.findOne(Integer.parseInt(permissionId));
+                role.getPermissions().add(permission);
+            }
+        }
+        if(StringUtils.isNotBlank(menuIds)){
+            String[] menuIdsArray = menuIds.split(",");
+            for (String menuId : menuIdsArray) {
+                Menu menu = menuRepository.findOne(Integer.parseInt(menuId));
+                role.getMenus().add(menu);
+            }
         }
     }
 }

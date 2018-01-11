@@ -35,6 +35,15 @@ public class Menu {
 	@JoinColumn(name = "C_PID")
 	private Menu parentMenu;
 
+	@Transient
+	public Integer getpId(){
+		if (parentMenu==null){
+			return 0;
+		}else{
+			return parentMenu.getId();
+		}
+	}
+
 	public Integer getId() {
 		return id;
 	}
