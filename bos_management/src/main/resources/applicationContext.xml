@@ -41,4 +41,7 @@
     <!--导入shiro配置-->
     <import resource="applicationContext-shiro.xml"/>
 
+    <!--导入ehcache配置-->
+    <import resource="applicationContext-cache.xml"/>
+
 </beans>

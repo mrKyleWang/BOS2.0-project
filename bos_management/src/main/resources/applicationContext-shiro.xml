@@ -33,11 +33,17 @@
 
     <!--配置安全管理器-->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realm" ref="BosRealm"/>
+        <property name="realm" ref="bosRealm"/>
+        <property name="cacheManager" ref="shiroCacheManager"/>
     </bean>
 
     <!--配置后置处理器-->
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!--配置realm, 配置缓存区-->
+    <bean id="bosRealm" class="top.kylewang.bos.realm.BosRealm">
+        <property name="authorizationCacheName" value="bos"/>
+    </bean>
 
     <!--配置shiro注解模式-->
     <!--自动代理-->

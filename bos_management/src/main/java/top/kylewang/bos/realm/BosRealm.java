@@ -8,7 +8,6 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import top.kylewang.bos.domain.system.Permission;
 import top.kylewang.bos.domain.system.Role;
 import top.kylewang.bos.domain.system.User;
@@ -22,7 +21,7 @@ import java.util.List;
  * @author Kyle.Wang
  * 2018/1/10 0010 15:48
  */
-@Service("BosRealm")
+//@Service("BosRealm") 转由xml配置realm,来设置缓存
 public class BosRealm extends AuthorizingRealm{
 
     @Autowired

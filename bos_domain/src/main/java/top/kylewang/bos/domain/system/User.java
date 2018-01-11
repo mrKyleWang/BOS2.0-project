@@ -3,6 +3,7 @@ package top.kylewang.bos.domain.system;
 import org.apache.struts2.json.annotations.JSON;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +13,7 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "T_USER")
-public class User {
+public class User implements Serializable {
 
 	@Id
 	@GeneratedValue
