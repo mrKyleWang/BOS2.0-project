@@ -36,6 +36,11 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<Menu> findByUser(User user) {
-        return menuRepository.findByUser(user.getId());
+        // 判断:如果是管理员则获得所有权限
+        if("admin".equals(user.getUsername())){
+            return menuRepository.findAll();
+        }else{
+            return menuRepository.findByUser(user.getId());
+        }
     }
 }
