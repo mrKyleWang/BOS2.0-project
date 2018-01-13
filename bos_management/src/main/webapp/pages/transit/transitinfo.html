@@ -31,6 +31,28 @@
 					text: '出入库',
 					iconCls: 'icon-add',
 					handler: function() {
+                        var row = $("#transitGrid").datagrid("getSelected");
+                        if(row == null){
+                            $.messager.alert("警告","请选择一条运单信息操作","warning");
+                            return;
+                        }
+                        if(row.status!='出入库中转'){
+                            $.messager.alert("警告","只能对处于【出入库中转】状态的运单进行操作","warning");
+                            return;
+						}
+                        $("input[name='transitInfoId']").each(function () {
+                            $(this).val(row.id);
+                        });
+						// 回显物流信息
+						var transitInfoView = "";
+                        transitInfoView += ("运单号:"+row.wayBill.wayBillNum+"<br/>");
+                        transitInfoView += ("货物类型:"+row.wayBill.goodsType+"<br/>");
+                        transitInfoView += ("发货地:"+row.wayBill.sendAddress+"<br/>");
+                        transitInfoView += ("收货地:"+row.wayBill.recAddress+"<br/>");
+                        transitInfoView += ("物流信息:"+row.transferInfo+"<br/>");
+                        $(".transitInfoView").each(function () {
+							$(this).html(transitInfoView);
+                        });
 						$("#inoutstoreWindow").window('open');
 					}
 				}, {
@@ -38,6 +60,28 @@
 					text: '开始配送',
 					iconCls: 'icon-print',
 					handler: function() {
+                        var row = $("#transitGrid").datagrid("getSelected");
+                        if(row == null){
+                            $.messager.alert("警告","请选择一条运单信息操作","warning");
+                            return;
+                        }
+                        if(row.status!='到达网点'){
+                            $.messager.alert("警告","只能对处于【到达网点】状态的运单进行操作","warning");
+                            return;
+                        }
+                        $("input[name='transitInfoId']").each(function () {
+                            $(this).val(row.id);
+                        });
+                        // 回显物流信息
+                        var transitInfoView = "";
+                        transitInfoView += ("运单号:"+row.wayBill.wayBillNum+"<br/>");
+                        transitInfoView += ("货物类型:"+row.wayBill.goodsType+"<br/>");
+                        transitInfoView += ("发货地:"+row.wayBill.sendAddress+"<br/>");
+                        transitInfoView += ("收货地:"+row.wayBill.recAddress+"<br/>");
+                        transitInfoView += ("物流信息:"+row.transferInfo+"<br/>");
+                        $(".transitInfoView").each(function () {
+                            $(this).html(transitInfoView);
+                        });
 						$("#deliveryWindow").window('open');
 					}
 				}, {
@@ -45,6 +89,28 @@
 					text: '签收录入',
 					iconCls: 'icon-save',
 					handler: function() {
+                        var row = $("#transitGrid").datagrid("getSelected");
+                        if(row == null){
+                            $.messager.alert("警告","请选择一条运单信息操作","warning");
+                            return;
+                        }
+                        if(row.status!='开始配送'){
+                            $.messager.alert("警告","只能对处于【开始配送】状态的运单进行操作","warning");
+                            return;
+                        }
+                        $("input[name='transitInfoId']").each(function () {
+                            $(this).val(row.id);
+                        });
+                        // 回显物流信息
+                        var transitInfoView = "";
+                        transitInfoView += ("运单号:"+row.wayBill.wayBillNum+"<br/>");
+                        transitInfoView += ("货物类型:"+row.wayBill.goodsType+"<br/>");
+                        transitInfoView += ("发货地:"+row.wayBill.sendAddress+"<br/>");
+                        transitInfoView += ("收货地:"+row.wayBill.recAddress+"<br/>");
+                        transitInfoView += ("物流信息:"+row.transferInfo+"<br/>");
+                        $(".transitInfoView").each(function () {
+                            $(this).html(transitInfoView);
+                        });
 						$("#signWindow").window('open');
 					}
 				}, {
@@ -160,7 +226,24 @@
 					toolbar: transitToolbar,
 					columns: transitColumns
 				});
-
+				// 出入库保存按钮
+				$("#inoutStoreSave").click(function () {
+				    if($("#inoutStoreForm").form("validate")){
+						$("#inoutStoreForm").submit();
+					}
+                });
+				// 配送保存按钮
+                $("#deliverySave").click(function () {
+                    if($("#deliveryForm").form("validate")){
+                        $("#deliveryForm").submit();
+                    }
+                });
+				// 签收存按钮
+                $("#signSave").click(function () {
+                    if($("#signForm").form("validate")){
+                        $("#signForm").submit();
+                    }
+                });
 			});
 		</script>
 	</head>
@@ -178,7 +261,7 @@
 				</div>
 			</div>
 			<div region="center" style="overflow:auto;padding:5px;" border="false">
-				<form id="inoutStoreForm" method="post" action="">
+				<form id="inoutStoreForm" method="post" action="../../inoutstore_save.action">
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
 							<td colspan="2">入库操作</td>
@@ -186,7 +269,8 @@
 						<tr>
 							<td>运单信息</td>
 							<td>
-								<input type="hidden" name="id" />
+								<input type="hidden" name="transitInfoId" />
+								<span class="transitInfoView"></span>
 						</tr>
 						<tr>
 							<td>操作</td>
@@ -222,7 +306,7 @@
 				</div>
 			</div>
 			<div region="center" style="overflow:auto;padding:5px;" border="false">
-				<form id="deliveryForm" method="post" action="">
+				<form id="deliveryForm" method="post" action="../../delivery_save.action">
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
 							<td colspan="2">开始配送</td>
@@ -230,7 +314,8 @@
 						<tr>
 							<td>运单信息</td>
 							<td>
-								<input type="hidden" name="id"/>
+								<input type="hidden" name="transitInfoId"/>
+								<span class="transitInfoView"></span>
 						</tr>
 						<tr>
 							<td>快递员工号</td>
@@ -262,7 +347,7 @@
 				</div>
 			</div>
 			<div region="center" style="overflow:auto;padding:5px;" border="false">
-				<form id="signForm" method="post" action="">
+				<form id="signForm" method="post" action="../../sign_save.action">
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
 							<td colspan="2">签收录入</td>
@@ -270,7 +355,7 @@
 						<tr>
 							<td>运单信息</td>
 							<td>
-								<input type="hidden" name="id" />
+								<input type="hidden" name="transitInfoId" />
 								<span id="transitInfoView"></span>
 						</tr>
 						<tr>

@@ -35,11 +35,29 @@ public class TransitInfo {
 	private SignInfo signInfo;
 
 	@Column(name = "C_STATUS")
-	// 出入库中转、到达网点、开始配置、正常签收、异常
+	// 出入库中转、到达网点、开始配送、正常签收、异常
 	private String status;
 
 	@Column(name = "C_OUTLET_ADDRESS")
 	private String outletAddress;
+
+	@Transient
+	public String getTransferInfo(){
+		StringBuffer stringBuffer = new StringBuffer();
+		// 出入库信息
+		for (InOutStorageInfo inOutStorageInfo : inOutStorageInfos) {
+			stringBuffer.append(inOutStorageInfo.getDescription()+"<br/>");
+		}
+		// 配送信息
+		if(deliveryInfo!=null){
+			stringBuffer.append(deliveryInfo.getDescription()+"<br/>");
+		}
+		// 签收信息
+		if(signInfo!=null){
+			stringBuffer.append(signInfo.getDescription()+"<br/>");
+		}
+		return stringBuffer.toString();
+	}
 
 	public Integer getId() {
 		return id;
