@@ -18,6 +18,8 @@ import top.kylewang.bos.domain.take_delivery.WayBill;
 import top.kylewang.bos.index.WayBillIndexRepository;
 import top.kylewang.bos.service.take_delivery.WayBillService;
 
+import java.util.List;
+
 /**
  * @author Kyle.Wang
  * 2018/1/8 0008 15:13
@@ -41,15 +43,21 @@ public class WayBillServiceImpl implements WayBillService {
         // 判断是更新还是新增
         WayBill persistentWayBill = wayBillRepository.findByWayBillNum(wayBill.getWayBillNum());
         if(persistentWayBill!=null && persistentWayBill.getId()!=null){
-            // 更新操作
-            Integer id = persistentWayBill.getId();
-            BeanUtils.copyProperties(wayBill,persistentWayBill);
-            persistentWayBill.setId(id);
-            wayBillRepository.save(persistentWayBill);
-            // 保存索引
-            wayBillIndexRepository.save(persistentWayBill);
+            // 更新操作, 判断运单状态是否为待发货:1
+                if(persistentWayBill.getSignStatus()==1){
+                    Integer id = persistentWayBill.getId();
+                    BeanUtils.copyProperties(wayBill,persistentWayBill);
+                    persistentWayBill.setId(id);
+                    persistentWayBill.setSignStatus(1);
+                    wayBillRepository.save(persistentWayBill);
+                    // 保存索引
+                    wayBillIndexRepository.save(persistentWayBill);
+                }else{
+                    throw new RuntimeException("运单已经发出,无法修改保存!!");
+                }
         }else{
             // 新增操作
+            wayBill.setSignStatus(1);
             wayBillRepository.save(wayBill);
             // 保存索引
             wayBillIndexRepository.save(wayBill);
@@ -134,5 +142,13 @@ public class WayBillServiceImpl implements WayBillService {
     @Override
     public WayBill findByWayBillNum(String wayBillNum) {
         return wayBillRepository.findByWayBillNum(wayBillNum);
+    }
+
+    @Override
+    public void syncIndex() {
+        List<WayBill> wayBillList = wayBillRepository.findAll();
+        for (WayBill wayBill : wayBillList) {
+            wayBillIndexRepository.save(wayBill);
+        }
     }
 }

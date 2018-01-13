@@ -29,4 +29,10 @@ public interface WayBillService {
      * @return
      */
     WayBill findByWayBillNum(String wayBillNum);
+
+
+    /**
+     * 同步索引库
+     */
+    void syncIndex();
 }

@@ -38,6 +38,33 @@
 				var searchParams = $("#searchForm").serializeJson();
 				$('#tt').datagrid('load',searchParams);
 			}
+			$(function () {
+				$("#transitBtn").click(function () {
+					var rows = $("#tt").datagrid("getSelections");
+					if(rows.length == 0){
+					    $.messager.alert("警告","请选中运单信息!","warning");
+					}else{
+					    var wayBillIdArray = new Array();
+					    for(var i=0;i<rows.length;i++){
+                            wayBillIdArray.push(rows[i].id);
+						}
+						var wayBillIds = wayBillIdArray.join(",");
+					    $.post("../../transit_create.action",{wayBillIds:wayBillIds},function (data) {
+							if(data.success){
+								$.messager.show({
+									title:"请求成功",
+									msg:data.msg
+								});
+							}else{
+                                $.messager.show({
+                                    title:"请求失败",
+                                    msg:data.msg
+                                });
+							}
+                        });
+					}
+                });
+            });
 		</script>
 	</head>
 
@@ -51,7 +78,8 @@
 			<a id="save2" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
 			<a id="print2" icon="icon-print" href="#" class="easyui-linkbutton" plain="true">打印标签</a>
 			<a id="print3" icon="icon-print" href="#" class="easyui-linkbutton" plain="true">打印工作单</a>
-			
+			<a id="transitBtn" icon="icon-add" href="#" class="easyui-linkbutton" plain="true">开启中转配送</a>
+
 			<br />
 				<form id="searchForm">
 					运单号：<input name="wayBillNum" style="line-height:20px;border:1px solid #ccc">

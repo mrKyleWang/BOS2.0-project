@@ -1,5 +1,6 @@
 package top.kylewang.bos.domain.take_delivery;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldIndex;
@@ -106,7 +107,7 @@ public class WayBill {
 	 */
 	@Column(name = "C_SIGN_STATUS")
 	@Field(index = FieldIndex.not_analyzed,store = true,type = FieldType.String)
-	private Integer signStatus; // 签收状态
+	private Integer signStatus = 1; // 签收状态
 
 	/*
 	 * 1、新增修改单据状态为“否” 2、作废时需将状态置为“是” 3、取消作废时需要将状态置为“否”
@@ -138,6 +139,7 @@ public class WayBill {
 		this.wayBillNum = wayBillNum;
 	}
 
+	@JsonIgnore
 	public Order getOrder() {
 		return order;
 	}
@@ -170,6 +172,7 @@ public class WayBill {
 		this.sendCompany = sendCompany;
 	}
 
+	@JsonIgnore
 	public Area getSendArea() {
 		return sendArea;
 	}
@@ -210,6 +213,7 @@ public class WayBill {
 		this.recCompany = recCompany;
 	}
 
+	@JsonIgnore
 	public Area getRecArea() {
 		return recArea;
 	}
