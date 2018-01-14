@@ -73,6 +73,10 @@
                     $("#searchForm").attr("action","../../waybill_exportPdf.action");
                     $("#searchForm").submit();
                 });
+				$("#exportJasperPdfBtn").click(function () {
+                    $("#searchForm").attr("action","../../waybill_exportJasperPdf.action");
+                    $("#searchForm").submit();
+                });
             });
 		</script>
 	</head>
@@ -90,9 +94,10 @@
 			<a id="transitBtn" icon="icon-add" href="#" class="easyui-linkbutton" plain="true">开启中转配送</a>
 			<a id="exportXlsBtn" icon="icon-print" href="#" class="easyui-linkbutton" plain="true">导出Excel表格</a>
 			<a id="exportPdfBtn" icon="icon-print" href="#" class="easyui-linkbutton" plain="true">导出Pdf文件</a>
+			<a id="exportJasperPdfBtn" icon="icon-print" href="#" class="easyui-linkbutton" plain="true">结合模板导出Pdf文件</a>
 
 			<br />
-				<form id="searchForm">
+				<form id="searchForm" method="post">
 					运单号：<input name="wayBillNum" style="line-height:20px;border:1px solid #ccc">
 					发货地：<input name="sendAddress" style="line-height:20px;border:1px solid #ccc" >
 					收货地：<input name="recAddress" style="line-height:20px;border:1px solid #ccc" >
