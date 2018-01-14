@@ -115,7 +115,7 @@
 					   plain="true" onclick="doSearch()">查询</a>
 				</form>
 		</div>
-		<table id="tt" class="easyui-datagrid" url="../../waybill_pageQuery.action" fit="true" toolbar="#tb" rownumbers="true" pagination="true">
+		<table id="tt" class="easyui-datagrid" url="../../waybill_pageQuery.action" data-options="queryParams:{signStatus:0}" fit="true" toolbar="#tb" rownumbers="true" pagination="true">
 			<thead>
 				<tr>
 					<th field="ck" checkbox="true"></th>
